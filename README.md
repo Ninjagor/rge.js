@@ -6,18 +6,59 @@ RGE.js is a Javascript library for simple and intuitive game development and dig
 RGE.js uses the HTML canvas tag in order to render elements. It comes with sensible pre-built objects and components, but is fully expandable, and programmers can easily create their own using RGE.js. 
 
 ### Get Started
-As of right now, RGE.js is still in it's alpha phase and is not yet published on NPM. However, you can always clone this github repository and use the source code directly! Tutorials for using RGE.js are below.
+RGE.js is available to install on NPM as well as via CDN (`jsDelivr`). 
+
+```
+npm i rge.js@latest
+```
+
+CDN:
+
+```html
+<script type="module">
+    import * as rgejs from "https://cdn.jsdelivr.net/npm/rge.js@latest/index.js"
+    window.rgejs = rgejs;
+</script>
+```
+
+RGE.js is intending to be used in a plain HTML/CSS/JS browser environment. NodeJS and framework compatibility may be added in the future in the form of a seperate package. 
+
+#### Compatibility
+HTML/CSS/JS - `Compatible`
+ReactJS - `Incompatible`
+VueJS - `Untested`
+Svelte - `Untested`
+Angular - `Untested`
+
+#### Warning❗️
+As of right now, RGE.js is still in it's alpha phase and may have bugs/issues. 
 
 ## Documentation
 RGE.js uses an Object Oriented paradigm. This means the RGE engine class and all Entities are objects and have to be handled as such. 
 
-#### Initialization
-We will begin with the `RGE` object. This can be viewed as sort of the "Main Engine" behind RGE.js. When you first create a project, you will create a new instance of this object. Then, you will run `start()`.
+### Initialization
+In order to initialize RGE.js, it is recommended to use the CDN install. rgejs will be added to the global `window` object, which can then be used in other `module` JS files. 
+
+#### Important!
+Import all JS files which use RGE.js as a module. For example:
+```html
+<script type="module" src="./script.js"></script>
+```
+
+At the top of all files, it is recommended to make a shorthand for the global `rgejs` object for simplicity.
+
+```javascript
+const r = rgejs;
+```
+
+### Starting the Engine
+
+We will begin with the `Engine` object. This can be viewed as sort of the "Main Engine" behind RGE.js. When you first create a project, you will create a new instance of this object. Then, you will run `start()`.
 
 ```javascript
 // First parameter is the id of the canvas which RGE will run on
 // Second parameter is the target framerate.
-const rge = new RGE('gameCanvas', 60);
+const rge = new r.Engine('gameCanvas', 60);
 
 rge.start()
 ```
@@ -69,7 +110,7 @@ One of the most used entities is `Rect`. This simply generates a Rectangle. Let'
 
 ```javascript
 // Creating new instance of a Rect
-const rect = new Rect(x, y, width, height, "color")
+const rect = new r.Rect(x, y, width, height, "color")
 // Adding the newly made Rect
 rge.addEntity(rect)
 ```
@@ -93,8 +134,8 @@ The `update()` function of rect rerenders the `Rect` at a new X and Y pos. Now, 
 #### Collision Basics
 Although collisions are traditionally a difficult thing to implement, RGE.js makes it very easy and intuitive. We will take a look at implementing collisions between different `Rect` entities. 
 ```javascript
-const rect1 = new Rect(x, y, width, height, "red");
-const rect2 = new Rect(x, y, width, height, "blue");
+const rect1 = new r.Rect(x, y, width, height, "red");
+const rect2 = new r.Rect(x, y, width, height, "blue");
 
 rge.addEntity(rect1);
 rge.addEntity(rect2);
@@ -137,7 +178,7 @@ let y = 200;
 let dx = 0;
 let dy = 0;
 
-const demoRect = new Rect(x, y, 50, 50, "green");
+const demoRect = new r.Rect(x, y, 50, 50, "green");
 rge.addEntity(demoRect);
 
 rge.addKeyPressAction({
@@ -193,7 +234,7 @@ RGE.js also tracks mouse clicks, and provides a utility to add an `onClick` func
 
 ```javascript
 // Initializing and registering Rect entity
-const startBtn = new Rect(650, 500, 400, 100, "red")
+const startBtn = new r.Rect(650, 500, 400, 100, "red")
 rge.addEntity(startBtn)
 
 // Adding an onClick function to the Entity
