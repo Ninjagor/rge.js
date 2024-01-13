@@ -1,3 +1,4 @@
+import { Ellipse } from "./Ellipse.js";
 import { Entity } from "./Entity.js"
 
 /**
@@ -71,17 +72,47 @@ export class Rect extends Entity {
         );
     }
 
+    collisionLogic(otherEntity) {
+        if (otherEntity instanceof Ellipse) {
+            return this.collisionRectEllipse(this, otherEntity)
+        } else if (otherEntity instanceof Rect) {
+            return this.collisionRectRect(this, otherEntity);
+        }
+
+        // Add more cases for other shapes if needed
+
+        return false;
+    }
+
     /**
-     * Performs collision logic with another rectangular entity.
-     * @param {Rect} otherRect - The other rectangular entity for collision detection.
+     * Checks collision between two rectangles.
+     * @param {Rect} rect1 - The first rectangle entity.
+     * @param {Rect} rect2 - The second rectangle entity.
      * @returns {boolean} - True if a collision occurs, false otherwise.
      */
-    collisionLogic(otherRect) {
-        return !(
-            this.x + this.width < otherRect.x ||
-            this.x > otherRect.x + otherRect.width ||
-            this.y + this.height < otherRect.y ||
-            this.y > otherRect.y + otherRect.height
-        );
+    collisionRectRect(rect1, rect2) {
+        const overlapX = Math.max(0, Math.min(rect1.x + rect1.width, rect2.x + rect2.width) - Math.max(rect1.x, rect2.x));
+
+        const overlapY = Math.max(0, Math.min(rect1.y + rect1.height, rect2.y + rect2.height) - Math.max(rect1.y, rect2.y));
+
+        return overlapX > 0 && overlapY > 0;
     }
+
+    /**
+     * Checks collision between a rectangle and an ellipse.
+     * @param {Rect} rect - The rectangle entity.
+     * @param {Ellipse} ellipse - The ellipse entity.
+     * @returns {boolean} - True if a collision occurs, false otherwise.
+     */
+    collisionRectEllipse(rect, ellipse) {
+        const overlapX = Math.max(0, Math.min(rect.x + rect.width, ellipse.x + ellipse.radius) - Math.max(rect.x, ellipse.x - ellipse.radius));
+
+    // Check for overlap on the Y-axis
+        const overlapY = Math.max(0, Math.min(rect.y + rect.height, ellipse.y + ellipse.radius) - Math.max(rect.y, ellipse.y - ellipse.radius));
+
+        // If there is overlap on both axes, a collision occurs
+        return overlapX > 0 && overlapY > 0;
+    }
+
+    
 }

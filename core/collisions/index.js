@@ -1,0 +1,1 @@
+export { collideRectRect } from "./CollideRectRect/index.js"

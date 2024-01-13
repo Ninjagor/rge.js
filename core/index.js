@@ -5,7 +5,9 @@
  */
 
 
-import { addKeyPressAction, handleKeyPress, handleKeyUp, addMouseClickHandler, handleMouseClick } from "./inputs/index.js";
+import { addKeyPressAction, addMouseClickHandler, handleMouseClick } from "./inputs/index.js";
+
+import { collideRectRect } from "./collisions/index.js";
 
 
 /**
@@ -64,16 +66,6 @@ export class RGE {
     addKeyPressAction;
 
     /**
-     * @type {function} - Function to handle key press events.
-     */
-    handleKeyPress;
-
-    /**
-     * @type {function} - Function to handle key up events.
-     */
-    handleKeyUp;
-
-    /**
      * @type {function} - Function to add mouse click handlers.
      */
     addMouseClickHandler;
@@ -87,6 +79,10 @@ export class RGE {
      * @type {MouseClickHandler[]} - Array of mouse click handlers.
      */
     mouseClickHandlers;
+
+    keyStates;
+
+    collideRectRect;
 
     /**
      * Creates an instance of RGE.
@@ -105,18 +101,17 @@ export class RGE {
         this.lastTimestamp = 0;
         this.deltaAccumulator = 0;
 
-        this.keyPressActions = {};
-        this.pressedKeys = {};
-
         this.addKeyPressAction = addKeyPressAction.bind(this);
-        this.handleKeyPress = handleKeyPress.bind(this);
-        this.handleKeyUp = handleKeyUp.bind(this);
 
         this.addMouseClickHandler = addMouseClickHandler.bind(this);
         this.handleMouseClick = handleMouseClick.bind(this);
 
+        this.keyStates = {}
+
         this.mouseClickHandlers = [];
         this.canvas.addEventListener("click", this.handleMouseClick.bind(this));
+
+        this.collideRectRect = collideRectRect.bind(this);
     }
 
      /**
@@ -124,6 +119,10 @@ export class RGE {
      */
     start() {
         requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+    }
+
+    returnPressedKeys() {
+        console.log("Pressed Keys:")
     }
 
     /**
