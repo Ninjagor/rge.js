@@ -56,13 +56,13 @@ export class Entity {
      * @param {Entity} otherEntity - The other entity to check collision with.
      * @returns {boolean} - True if a collision occurs, false otherwise.
      */
-    collidesWith(otherEntity) {
-        if (this.isDestroyed || otherEntity.isDestroyed) {
-            return false;
-        }
+    // collidesWith(otherEntity) {
+    //     if (this.isDestroyed || otherEntity.isDestroyed) {
+    //         return false;
+    //     }
 
-        return this.collisionLogic(otherEntity);
-    }
+    //     return this.collisionLogic(otherEntity);
+    // }
 
     /**
      * Abstract method to be overridden by subclasses for specific collision logic.

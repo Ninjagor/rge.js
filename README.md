@@ -149,7 +149,7 @@ function tick() {
 
 rge.setTickFunction(tick);
 ```
-Once `rect2` is destroyed, it is removed from the canvas. Since we did not call an `update()` function to rect2 however, you may think that the `rect2` variable will contain stale data about the non-existing rect. However, a value is stored inside the `Rect` object which states if it is destroyed or not. The `collidesWith` function checks if the object is destroyed or not before implementing the collision logic, so collision with destroyed entities can not occur.
+Once `rect2` is destroyed, it is removed from the canvas. Since we did not call an `update()` function to rect2 however, you may think that the `rect2` letiable will contain stale data about the non-existing rect. However, a value is stored inside the `Rect` object which states if it is destroyed or not. The `collidesWith` function checks if the object is destroyed or not before implementing the collision logic, so collision with destroyed entities can not occur.
 
 ### Inputs
 RGE.js supports inbuilt input detection and handling for both keyboard and mouse inputs.

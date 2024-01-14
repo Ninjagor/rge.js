@@ -5,9 +5,9 @@
  */
 
 
-import { addKeyPressAction, addMouseClickHandler, handleMouseClick } from "./inputs/index.js";
+import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTracking } from "./inputs/index.js";
 
-import { collideRectRect } from "./collisions/index.js";
+import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly } from "./collisions/index.js";
 
 
 /**
@@ -84,6 +84,16 @@ export class RGE {
 
     collideRectRect;
 
+    collideRectEllipse;
+
+    collidePointPoly;
+
+    findDistance;
+
+    mouseX;
+
+    mouseY;
+
     /**
      * Creates an instance of RGE.
      * @param {string} canvasId - The ID of the HTML canvas element.
@@ -101,6 +111,9 @@ export class RGE {
         this.lastTimestamp = 0;
         this.deltaAccumulator = 0;
 
+        this.mouseX = 0;
+        this.mouseY = 0;
+
         this.addKeyPressAction = addKeyPressAction.bind(this);
 
         this.addMouseClickHandler = addMouseClickHandler.bind(this);
@@ -112,6 +125,19 @@ export class RGE {
         this.canvas.addEventListener("click", this.handleMouseClick.bind(this));
 
         this.collideRectRect = collideRectRect.bind(this);
+        this.collideRectEllipse = collideRectEllipse.bind(this);
+        this.collidePointPoly = collidePointPoly.bind(this);
+
+        this.findDistance = twoPointDist.bind(this);
+
+        this.initMouseTracking  = initMouseTracking.bind(this)
+
+        this.canvas.addEventListener("mousemove", this.initMouseTracking.bind(this));
+
+        this.collideLineEllipse = collideLineEllipse.bind(this);
+        this.collidePointEllipse = collidePointEllipse.bind(this);
+        this.collidePointLine = collidePointLine.bind(this);
+        this.collideEllipsePoly = collideEllipsePoly.bind(this);
     }
 
      /**

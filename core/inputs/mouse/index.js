@@ -15,3 +15,8 @@ export function handleMouseClick(event) {
         }
     }
 }
+
+export function initMouseTracking(event) {
+    this.mouseX = event.clientX - this.canvas.getBoundingClientRect().left;
+    this.mouseY = event.clientY - this.canvas.getBoundingClientRect().top;
+}

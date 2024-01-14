@@ -1,6 +1,6 @@
 {
   "name": "rge.js",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "description": "RGE.js is a Javascript library for simple and intuitive game development and digital art.",
   "main": "index.js",
   "scripts": {
