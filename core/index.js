@@ -7,7 +7,7 @@
 
 import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTracking } from "./inputs/index.js";
 
-import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly } from "./collisions/index.js";
+import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly } from "./collisions/index.js";
 
 
 /**
@@ -138,6 +138,10 @@ export class RGE {
         this.collidePointEllipse = collidePointEllipse.bind(this);
         this.collidePointLine = collidePointLine.bind(this);
         this.collideEllipsePoly = collideEllipsePoly.bind(this);
+
+        this.collideLineLine = collideLineLine.bind(this);
+        this.collideLineRect = collideLineRect.bind(this);
+        this.collideRectPoly = collideRectPoly.bind(this);
     }
 
      /**
