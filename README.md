@@ -85,13 +85,6 @@ class Entity {
     // Abstract method to be defined by subclasses
     render(ctx) { }
 
-    collidesWith(otherEntity) {
-        return (this.isDestroyed || otherEntity.isDestroyed) ? false : this.collisionLogic(otherEntity);
-    }
-
-    // Abstract method to be defined by subclasses
-    collisionLogic(otherEntity) {}
-
     destroy() {
         this.isDestroyed = true;
     }
@@ -131,25 +124,6 @@ rge.setTickFunction(tick);
 ```
 The `update()` function of rect rerenders the `Rect` at a new X and Y pos. Now, let's take a look at implementing collision by using this game tick. 
 
-#### Collision Basics
-Although collisions are traditionally a difficult thing to implement, RGE.js makes it very easy and intuitive. We will take a look at implementing collisions between different `Rect` entities. 
-```javascript
-const rect1 = new r.Rect(x, y, width, height, "red");
-const rect2 = new r.Rect(x, y, width, height, "blue");
-
-rge.addEntity(rect1);
-rge.addEntity(rect2);
-
-function tick() {
-    if (rect1.collidesWith(rect2)) {
-        // Logic for what happens after collision. In this case, we will destroy rect2.
-        rge.destroyEntity(rect2);
-    }
-}
-
-rge.setTickFunction(tick);
-```
-Once `rect2` is destroyed, it is removed from the canvas. Since we did not call an `update()` function to rect2 however, you may think that the `rect2` letiable will contain stale data about the non-existing rect. However, a value is stored inside the `Rect` object which states if it is destroyed or not. The `collidesWith` function checks if the object is destroyed or not before implementing the collision logic, so collision with destroyed entities can not occur.
 
 ### Inputs
 RGE.js supports inbuilt input detection and handling for both keyboard and mouse inputs.
@@ -246,6 +220,82 @@ startBtn.onClick = () => {
 rge.addMouseClickHandler(startBtn);
 ```
 Great! As you can see, this allows Rect's to be turned into clickable buttons, which can be used to initialize games.
+
+#### Mouse X and Mouse Y
+RGE.js provides a utility to access the mouse's X and Y coordinates. (Works with mobile, but not recommended). Let's see an example of making a rect follow the mouse pointer.
+
+```javascript
+let x = 0;
+let y = 0;
+const rect = new r.Rect(x, y, 50, 50, "red");
+rge.addEntity(rect);
+
+function tick() {
+    // We do minus 25, since (0,0) is in the top left. This makes the rect centered in the mouse pointer.
+    x = rge.mouseX - 25;
+    y = rge.mouseY - 25;
+
+    rect.update(x, y)
+}
+```
+
+### More Entities
+
+#### Ellipses
+Ellipses are also a very commonly used entity. Creating an ellipse is very similar to making a rect.
+
+```javascript
+const ellipse = new r.Ellipse(x, y, radius, fillColor)
+rge.addEntity(ellipse);
+
+function tick() {
+    ellipse.update(newX, newY, newColor);
+}
+```
+Ellipses behave nearly identically to Rect's.
+
+### Collision Basics
+Although collisions are traditionally a difficult thing to implement, RGE.js makes it very easy and intuitive. We will take a look at implementing collisions between different `Rect` entities. 
+
+#### Collisions in RGE.js versions > `0.0.5`
+
+```javascript
+const rect1 = new r.Rect(x, y, width, height, "red");
+const rect2 = new r.Rect(x, y, width, height, "blue");
+
+rge.addEntity(rect1);
+rge.addEntity(rect2);
+
+function tick() {
+    if (rge.collideRectRect(rect1, rect2)) {
+        // Logic for what happens after collision. In this case, we will destroy rect2.
+        rge.destroyEntity(rect2);
+    }
+}
+
+rge.setTickFunction(tick);
+```
+
+#### Collisions in RGE.js versions < `0.0.5`
+##### ⚠️ Deprecated ⚠️
+
+```javascript
+const rect1 = new r.Rect(x, y, width, height, "red");
+const rect2 = new r.Rect(x, y, width, height, "blue");
+
+rge.addEntity(rect1);
+rge.addEntity(rect2);
+
+function tick() {
+    if (rect1.collidesWith(rect2)) {
+        // Logic for what happens after collision. In this case, we will destroy rect2.
+        rge.destroyEntity(rect2);
+    }
+}
+
+rge.setTickFunction(tick);
+```
+Once `rect2` is destroyed, it is removed from the canvas. Since we did not call an `update()` function to rect2 however, you may think that the `rect2` variable will contain stale data about the non-existing rect. However, a value is stored inside the `Rect` object which states if it is destroyed or not. The `collidesWith` function checks if the object is destroyed or not before implementing the collision logic, so collision with destroyed entities can not occur.
 
 ### Custom Entities
 RGE.js provides a sensible set of premade entities which should suit the needs of most developers. However, if you wish to create your own entity, you are always able to do that.
