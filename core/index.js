@@ -7,7 +7,7 @@
 
 import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTracking } from "./inputs/index.js";
 
-import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly } from "./collisions/index.js";
+import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse } from "./collisions/index.js";
 
 
 /**
@@ -142,13 +142,25 @@ export class RGE {
         this.collideLineLine = collideLineLine.bind(this);
         this.collideLineRect = collideLineRect.bind(this);
         this.collideRectPoly = collideRectPoly.bind(this);
+
+        this.collideEllipseEllipse = collideEllipseEllipse.bind(this);
+
+        this.animationFrameId = null;
     }
 
      /**
      * Starts the game loop.
      */
     start() {
-        requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+        this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+    }
+
+    stop() {
+        cancelAnimationFrame(this.animationFrameId);
+        this.entities = [];
+        this.keyPressActions = {};
+        this.pressedKeys = {};
+        this.mouseClickHandlers = [];
     }
 
     returnPressedKeys() {

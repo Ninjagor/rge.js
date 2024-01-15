@@ -42,6 +42,18 @@ export class Entity {
         throw new Error('Method "update" must be implemented by subclasses');
     }
 
+    addId(id) {
+        this.id = id;
+    }
+
+    removeId(id) {
+        this.id = null;
+    }
+
+    modifyId(id) {
+        this.id = id;
+    }
+
     /**
      * Abstract method to be overridden by subclasses for rendering the entity.
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
