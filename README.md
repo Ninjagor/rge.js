@@ -21,11 +21,17 @@ CDN:
 </script>
 ```
 
-RGE.js is intending to be used in a plain HTML/CSS/JS browser environment. NodeJS and framework compatibility may be added in the future in the form of a seperate package. 
+RGE.js can be used in ANY browser environment which supports the canvas element. It works with HTML/CSS/JS and ReactJS, and likely works with other frameworks as well. 
 
 #### Compatibility
 HTML/CSS/JS - `Compatible`
-ReactJS - `Incompatible`
+
+ReactJS - `Compatible`
+
+Nextjs:
+------ Client - `Compatible`
+------ Server - `Incompatible`
+
 VueJS - `Untested`
 Svelte - `Untested`
 Angular - `Untested`
@@ -36,8 +42,8 @@ As of right now, RGE.js is still in it's alpha phase and may have bugs/issues.
 ## Documentation
 RGE.js uses an Object Oriented paradigm. This means the RGE engine class and all Entities are objects and have to be handled as such. 
 
-### Initialization
-In order to initialize RGE.js, it is recommended to use the CDN install. rgejs will be added to the global `window` object, which can then be used in other `module` JS files. 
+### Initialization with `HTML/CSS/JS`
+In order to initialize RGE.js using HTML/CSS/JS, it is recommended to use the CDN install. rgejs will be added to the global `window` object, which can then be used in other `module` JS files. 
 
 #### Important!
 Import all JS files which use RGE.js as a module. For example:
@@ -63,7 +69,48 @@ const rge = new r.Engine('gameCanvas', 60);
 rge.start()
 ```
 
-Great! You have successfully initialized a new RGE project. Now, let's introduce `Entities`.
+Great! You have successfully initialized a new RGE project.
+
+### Initialization with `ReactJS/NextJS`
+
+Initializing RGE.js with `ReactJS` or `NextJS` is a bit different than with plain `HTML/CSS`. 
+
+```jsx
+// Add "use client" at the top of the file if using NextJS.
+// "use client"
+import * as r from "rge.js";
+import React, { useEffect, useRef } from "react";
+
+export default function RgeCanvas() {
+    const canvasRef = useRef(null);
+    useEffect(() => {
+        const canvasId = "gameCanvas";
+        const targetFps = 60;
+        
+        const rge = new r.Engine(canvasId, targetFps);
+        
+        rge.start();
+
+        return () => {
+            rge.stop();
+        };
+    }, []);
+    return (
+        <>
+            <canvas
+                ref={canvasRef}
+                id="gameCanvas"
+                // Set your desired canvas size
+                width={800}
+                height={600}
+            />
+        </>
+    )
+}
+
+```
+
+Great! You have successfully initialized a new RGE project in React!
 
 ### Entities
 `Entities` can just be viewed as different components or elements, which each have unique properties. Certain entities can be controlled, have collision, be destroyed, etc. 

@@ -49,12 +49,61 @@ export class Rect extends Entity {
     }
 
     /**
-     * Renders the rectangle on the canvas.
+     * Adds a texture to the rectangle.
+     * @param {string} textureUrl - The URL of the texture image.
+     * @param {string} [fillMode="stretched"] - The fill mode for the texture ("stretched" or "cover").
+     */
+    setTexture(textureUrl, fillMode = "stretched") {
+        const textureImage = new Image();
+        textureImage.src = textureUrl;
+
+        // Set up an onload event to ensure the image is loaded before rendering
+        textureImage.onload = () => {
+            this.texture = textureImage;
+            this.fillMode = fillMode;
+            this.renderTexture = true;
+        };
+    }
+
+    /**
+     * Renders the rectangle on the canvas with optional texture.
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     render(context) {
-        context.fillStyle = this.fillColor;
-        context.fillRect(this.x, this.y, this.width, this.height);
+        if (this.renderTexture && this.texture) {
+            if (this.fillMode === "cover") {
+                this.renderCover(context);
+            } else {
+                this.renderStretched(context);
+            }
+        } else {
+            context.fillStyle = this.fillColor;
+            context.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+
+    /**
+     * Renders the rectangle with texture using the "stretched" fill mode.
+     * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+     */
+    renderStretched(context) {
+        context.drawImage(this.texture, this.x, this.y, this.width, this.height);
+    }
+
+    /**
+     * Renders the rectangle with texture using the "cover" fill mode.
+     * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+     */
+    renderCover(context) {
+        const aspectRatio = this.texture.width / this.texture.height;
+        const targetWidth = this.width;
+        const targetHeight = this.width / aspectRatio;
+
+        // Center the texture and cut off the overflow
+        const offsetX = this.x;
+        const offsetY = this.y + (this.height - targetHeight) / 2;
+
+        context.drawImage(this.texture, offsetX, offsetY, targetWidth, targetHeight);
     }
 
     /**
