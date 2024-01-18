@@ -16,8 +16,78 @@ export class Polygon extends Entity {
         this.fillColor = fillColor;
     }
 
+    getBoundingBox() {
+        let minX = this.vertices[0].x + this.x;
+        let maxX = this.vertices[0].x + this.x;
+        let minY = this.vertices[0].y + this.y;
+        let maxY = this.vertices[0].y + this.y;
+
+        for (let i = 1; i < this.vertices.length; i++) {
+            const x = this.vertices[i].x + this.x;
+            const y = this.vertices[i].y + this.y;
+
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+        }
+
+        return {
+            x: minX,
+            y: minY,
+            width: maxX - minX,
+            height: maxY - minY
+        };
+    }
+
+     /**
+     * Adds a texture to the polygon.
+     * @param {string} textureUrl - The URL of the texture image.
+     * @param {string} [fillMode="stretched"] - The fill mode for the texture ("stretched" or "cover").
+     */
+     setTexture(textureUrl, fillMode = "stretched") {
+        const textureImage = new Image();
+        textureImage.src = textureUrl;
+
+        // Set up an onload event to ensure the image is loaded before rendering
+        textureImage.onload = () => {
+            this.texture = textureImage;
+            this.fillMode = fillMode;
+            this.renderTexture = true;
+        };
+    }
+
+    /**
+     * Renders the polygon on the canvas with optional texture.
+     * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+     */
     render(context) {
-        context.fillStyle = this.fillColor;
+        if (this.renderTexture && this.texture) {
+            if (this.fillMode === "cover") {
+                this.renderCover(context);
+            } else {
+                this.renderStretched(context);
+            }
+        } else {
+            context.fillStyle = this.fillColor;
+            context.beginPath();
+            context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
+
+            for (let i = 1; i < this.vertices.length; i++) {
+                context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
+            }
+
+            context.closePath();
+            context.fill();
+        }
+    }
+
+    /**
+     * Renders the polygon with texture using the "stretched" fill mode.
+     * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+     */
+    renderStretched(context) {
+        context.save();
         context.beginPath();
         context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
 
@@ -26,7 +96,32 @@ export class Polygon extends Entity {
         }
 
         context.closePath();
-        context.fill();
+        context.clip();
+        context.drawImage(this.texture, this.x, this.y, this.getWidth(), this.getHeight());
+        context.restore();
+    }
+
+    /**
+     * Renders the polygon with texture using the "cover" fill mode.
+     * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+     */
+    renderCover(context) {
+        const boundingBox = this.getBoundingBox();
+        const targetWidth = boundingBox.width;
+        const targetHeight = boundingBox.height;
+
+        context.save();
+        context.beginPath();
+        context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
+
+        for (let i = 1; i < this.vertices.length; i++) {
+            context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
+        }
+
+        context.closePath();
+        context.clip();
+        context.drawImage(this.texture, boundingBox.x, boundingBox.y, targetWidth, targetHeight);
+        context.restore();
     }
 
     hitTest(pointX, pointY) {
