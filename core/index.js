@@ -146,6 +146,11 @@ export class RGE {
         this.collideEllipseEllipse = collideEllipseEllipse.bind(this);
 
         this.animationFrameId = null;
+
+        window.addEventListener('resize', this.handleResize);
+
+        // Initial canvas resize
+        this.resizeCanvas();
     }
 
      /**
@@ -154,6 +159,22 @@ export class RGE {
     start() {
         this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
+
+     /**
+     * Resizes the game canvas based on its parent's size.
+     */
+     resizeCanvas() {
+        this.canvas.width = this.canvas.parentElement.clientWidth;
+        this.canvas.height = this.canvas.parentElement.clientHeight;
+    }
+
+    /**
+     * Handles the window resize event and resizes the canvas.
+     */
+    handleResize = () => {
+        this.resizeCanvas();
+        // Additional logic to redraw content if needed
+    };
 
     stop() {
         cancelAnimationFrame(this.animationFrameId);
