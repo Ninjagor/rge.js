@@ -123,33 +123,5 @@ export class Ellipse extends Entity {
         return distance <= this.radius;
     }
 
-    /**
-     * Performs collision logic with another entity.
-     * @param {Entity} otherEntity - The other entity for collision detection.
-     * @returns {boolean} - True if a collision occurs, false otherwise.
-     */
-    collisionLogic(otherEntity) {
-        if (otherEntity instanceof Ellipse) {
-            return this.collisionEllipseEllipse(otherEntity);
-        } else if (otherEntity instanceof Rect) {
-            return this.collisionEllipseRect(otherEntity);
-        }
-        
-        return false;
-    }
-
-    collisionEllipseEllipse(otherEntity) {
-        const distance = Math.sqrt((this.x - otherEntity.x) ** 2 + (this.y - otherEntity.y) ** 2);
-        return distance <= this.radius + otherEntity.radius;
-    }
-
-    collisionEllipseRect(rect) {
-        const closestX = Math.max(rect.x, Math.min(this.x, rect.x + rect.width));
-        const closestY = Math.max(rect.y, Math.min(this.y, rect.y + rect.height));
-        const distanceX = this.x - closestX;
-        const distanceY = this.y - closestY;
-        const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
-
-        return distance <= this.radius;
-    }
+    
 }

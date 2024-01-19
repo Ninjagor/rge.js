@@ -3,6 +3,26 @@
   "version": "0.0.62",
   "description": "RGE.js is a Javascript library for simple and intuitive game development and digital art.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ninjagor/rge.js.git"
+  },
+  "types": "index.d.ts",
+  "keywords": [
+    "javascript",
+    "rge",
+    "game",
+    "art",
+    "engine",
+    "js",
+    "canvas",
+    "oop",
+    "object",
+    "entity",
+    "rge.j",
+    "rge.",
+    "rge.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
