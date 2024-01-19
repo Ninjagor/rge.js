@@ -1,9 +1,19 @@
-# RGE.js
-Hello everyone! 👋
-
-RGE.js is a Javascript library for simple and intuitive game development and digital art. It is a great fit, no matter the experience level of the programmer. RGE.js is also completely open source, and is very extensible. 
-
-RGE.js uses the HTML canvas tag in order to render elements. It comes with sensible pre-built objects and components, but is fully expandable, and programmers can easily create their own using RGE.js. 
+<p align="center">
+  <br/>
+  <a href="https://rge-site.vercel.app/" target="_blank"><img width="135px" src="https://rge-site.vercel.app/images/RGE-banner.svg" /></a>
+  <h3 align="center">RGE.js</h3>
+  <p align="center">Powering your imagination and creativity with Javascript.</p>
+  <p align="center">Open Source. Object Oriented. Web Driven.</p>
+  <p align="center" style="align: center;">
+    <a href="https://www.npmtrends.com/rge.js">
+      <img src="https://img.shields.io/npm/dm/rge.js" alt="Downloads" />
+    </a>
+  </p>
+  <p align="center">
+    RGE.js is a Javascript library for simple and intuitive game development and digital art. It comes with sensible pre-built entities, utilities, and components, but is fully extensible and keeps the best practices in mind. 
+  </p>
+</p>
+<br>
 
 ### Get Started
 RGE.js is available to install on NPM as well as via CDN (`jsDelivr`). 
@@ -24,17 +34,17 @@ CDN:
 RGE.js can be used in ANY browser environment which supports the canvas element. It works with HTML/CSS/JS and ReactJS, and likely works with other frameworks as well. 
 
 #### Compatibility
-HTML/CSS/JS - `Compatible`
+| Framework  | Compatible? 
+| :----- | :----: |
+| HTML, CSS, JS    |  ✅   |
+| ReactJS | ✅  |
+| NextJS (CSR Components) | ✅  |
+| NextJS (SSR Components) | ❌ |
+| VueJS | Untested |
+| Svelte/SvelteKit | Untested |
+| AngularJS | Untested |
 
-ReactJS - `Compatible`
-
-Nextjs:
------- Client - `Compatible`
------- Server - `Incompatible`
-
-VueJS - `Untested`
-Svelte - `Untested`
-Angular - `Untested`
+<br>
 
 #### Warning❗️
 As of right now, RGE.js is still in it's alpha phase and may have bugs/issues. 
