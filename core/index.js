@@ -151,6 +151,8 @@ export class RGE {
 
         // Initial canvas resize
         this.resizeCanvas();
+
+        this.renderingOrigin = "topleft";
     }
 
      /**
@@ -248,12 +250,29 @@ export class RGE {
         }
     }
 
+    setCenterOrigin() {
+        this.renderingOrigin = "center"
+    }
+
+    resetOrigin() {
+        this.renderingOrigin = "topleft"
+    }
+
     /**
      * Renders all registered entities
      */
     renderEntities() {
-        for (const entity of this.entities) {
-            entity.render(this.context);
+        if (this.renderingOrigin == "topleft") {
+            for (const entity of this.entities) {
+                entity.render(this.context);
+            }
+        } else {
+            for (const entity of this.entities) {
+                this.context.save(); // Save the current state of the context
+                this.context.translate(this.canvas.width / 2, this.canvas.height / 2); // Translate to the center
+                entity.render(this.context);
+                this.context.restore(); // Restore the context to its previous state
+            }
         }
     }
 }
