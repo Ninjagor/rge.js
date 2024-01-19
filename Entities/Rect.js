@@ -14,7 +14,7 @@ export class Rect extends Entity {
      * @param {number} height - The height of the rectangle.
      * @param {string} [fillColor="blue"] - The fill color of the rectangle (default is "blue").
      */
-    constructor(x, y, width, height, fillColor = "blue") {
+    constructor(x, y, width, height, fillColor = "blue", centered = true) {
         super(x, y);
 
         /**
@@ -34,6 +34,25 @@ export class Rect extends Entity {
          * @type {string}
          */
         this.fillColor = fillColor;
+
+        if (centered) {
+            this.enableCentered();
+        } else {
+            this.disableCentered();
+        }
+
+    }
+    
+    enableCentered() {
+        this.centered = true;
+        this.x = this.x-this.width/2
+        this.y = this.y-this.height/2
+    }
+
+    disableCentered() {
+        this.centered = false;
+        this.x = this.x
+        this.y = this.y
     }
 
     /**
@@ -43,8 +62,13 @@ export class Rect extends Entity {
      * @param {string} [fillColor=this.fillColor] - The new fill color of the rectangle.
      */
     update(x, y, fillColor = this.fillColor) {
-        this.x = x;
-        this.y = y;
+        if (this.centered) {
+            this.x = x-this.width/2
+            this.y = y-this.height/2
+        } else {
+            this.x = x;
+            this.y = y;
+        }
         this.fillColor = fillColor;
     }
 
