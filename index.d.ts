@@ -11,7 +11,7 @@ declare module "rge.js" {
         destroy: () => void;
     };
     
-    export class RGE {
+    export class Engine {
         canvas: HTMLCanvasElement;
         context: CanvasRenderingContext2D;
         tickFunction: () => void;
