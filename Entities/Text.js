@@ -57,6 +57,11 @@ export class Text extends Entity {
         this.font = font;
     }
 
+    getWidth(context) {
+        context.font = `${this.fontSize}px ${this.font}`;
+        return context.measureText(this.text).width;
+    } 
+
     /**
      * Renders the text on the canvas.
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
