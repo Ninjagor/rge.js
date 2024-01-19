@@ -122,7 +122,7 @@ export class RGE {
         this.keyStates = {}
 
         this.mouseClickHandlers = [];
-        this.canvas.addEventListener("click", this.handleMouseClick.bind(this));
+        this.canvas.addEventListener("mousedown", this.handleMouseClick.bind(this));
 
         this.collideRectRect = collideRectRect.bind(this);
         this.collideRectEllipse = collideRectEllipse.bind(this);
