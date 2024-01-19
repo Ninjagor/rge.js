@@ -182,6 +182,7 @@ export class RGE {
         this.keyPressActions = {};
         this.pressedKeys = {};
         this.mouseClickHandlers = [];
+        this.tickFunction = () => {};
     }
 
     returnPressedKeys() {
