@@ -66,6 +66,7 @@ declare module "rge.js" {
         x: number;
         y: number;
         isDestroyed: boolean;
+        zIndex: number;
         onClick: (() => void) | null;
     
         constructor(x: number, y: number);

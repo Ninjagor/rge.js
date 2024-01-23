@@ -262,12 +262,16 @@ export class RGE {
      * Renders all registered entities
      */
     renderEntities() {
+        const entitiesList = this.entities;
+        entitiesList.sort((a, b) => {
+            return a.zIndex - b.zIndex
+        })
         if (this.renderingOrigin == "topleft") {
-            for (const entity of this.entities) {
+            for (const entity of entitiesList) {
                 entity.render(this.context);
             }
         } else {
-            for (const entity of this.entities) {
+            for (const entity of entitiesList) {
                 this.context.save(); // Save the current state of the context
                 this.context.translate(this.canvas.width / 2, this.canvas.height / 2); // Translate to the center
                 entity.render(this.context);

@@ -8,7 +8,7 @@ export class Entity {
      * @param {number} x - The x-coordinate of the entity.
      * @param {number} y - The y-coordinate of the entity.
      */
-    constructor(x, y) {
+    constructor(x, y, zIndex = 0) {
         /**
          * The x-coordinate of the entity.
          * @type {number}
@@ -20,6 +20,12 @@ export class Entity {
          * @type {number}
          */
         this.y = y;
+
+        /**
+         * The z-Index of the entity
+         * @type {number} default 0
+         */
+        this.zIndex = zIndex;
 
         /**
          * Indicates whether the entity is destroyed.
