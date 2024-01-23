@@ -29,6 +29,7 @@ declare module "rge.js" {
         findDistance: (...args: any[]) => any;
         mouseX: number;
         mouseY: number;
+        isMouseDown: boolean;
         entities: Entity[];
         initMouseTracking: (event: MouseEvent) => void;
         collideLineEllipse: (...args: any[]) => any;

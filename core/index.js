@@ -157,6 +157,14 @@ export class RGE {
         this.customZSort = () => {
 
         }
+
+        this.canvas.addEventListener("mousedown", () => {
+            this.isMouseDown = true;
+        });
+
+        this.canvas.addEventListener("mouseup", () => {
+            this.isMouseDown = false;
+        });
     }
 
      /**
