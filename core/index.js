@@ -153,6 +153,10 @@ export class RGE {
         this.resizeCanvas();
 
         this.renderingOrigin = "topleft";
+
+        this.customZSort = () => {
+
+        }
     }
 
      /**
@@ -257,21 +261,29 @@ export class RGE {
     resetOrigin() {
         this.renderingOrigin = "topleft"
     }
+    
+    customZSort() {
+
+    }
 
     /**
      * Renders all registered entities
      */
     renderEntities() {
-        const entitiesList = this.entities;
-        entitiesList.sort((a, b) => {
+        // const entitiesList = this.entities;
+        // entitiesList.sort((a, b) => {
+        //     return a.zIndex - b.zIndex
+        // })
+        this.entities.sort((a, b) => {
             return a.zIndex - b.zIndex
         })
+        this.customZSort();
         if (this.renderingOrigin == "topleft") {
-            for (const entity of entitiesList) {
+            for (const entity of this.entities) {
                 entity.render(this.context);
             }
         } else {
-            for (const entity of entitiesList) {
+            for (const entity of this.entities) {
                 this.context.save(); // Save the current state of the context
                 this.context.translate(this.canvas.width / 2, this.canvas.height / 2); // Translate to the center
                 entity.render(this.context);

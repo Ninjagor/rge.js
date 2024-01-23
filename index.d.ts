@@ -60,6 +60,7 @@ declare module "rge.js" {
         setCenterOrigin(): void;
         resetOrigin(): void;
         renderEntities(): void;
+        customZSort(): void;
     }
 
     export class Entity {
