@@ -96,7 +96,7 @@ declare module "rge.js" {
         hitTest(pointX: number, pointY: number): boolean;
     }
 
-    class Rect extends Entity {
+    export class Rect extends Entity {
         constructor(x: number, y: number, width: number, height: number, fillColor?: string, centered?: boolean);
 
         enableCentered(): void;
@@ -115,7 +115,7 @@ declare module "rge.js" {
         hitTest(pointX: number, pointY: number): boolean;
     }
 
-    class Text extends Entity {
+    export class Text extends Entity {
         constructor(x: number, y: number, text: string, fontSize?: number, fillStyle?: string);
 
         update(x: number, y: number, text?: string, fontSize?: number, font?: string): void;
@@ -125,7 +125,7 @@ declare module "rge.js" {
         render(context: CanvasRenderingContext2D): void;
     }
 
-    class Ellipse extends Entity {
+    export class Ellipse extends Entity {
         radius: number;
         fillColor: string;
 
@@ -143,5 +143,12 @@ declare module "rge.js" {
 
         hitTest(pointX: number, pointY: number): boolean;
     }
-    
+
+    export class Sound {
+        constructor(pathToAudio: string, isLooped: boolean)
+
+        playSound: () => void;
+        stopSound: () => void;
+        pauseSound: () => void;
+    }
 }

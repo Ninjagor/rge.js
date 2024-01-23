@@ -3,15 +3,24 @@ export function addMouseClickHandler(handler) {
 }
 
 export function handleMouseClick(event) {
-    const mouseX = event.clientX - this.canvas.getBoundingClientRect().left;
-    const mouseY = event.clientY - this.canvas.getBoundingClientRect().top;
+    let mouseX;
+    let mouseY
+    if (this.renderingOrigin == "topleft") {
+        mouseX = event.clientX - this.canvas.getBoundingClientRect().left;
+        mouseY = event.clientY - this.canvas.getBoundingClientRect().top;
+    } else {
+        const parentRect = this.canvas.parentElement.getBoundingClientRect();
+        mouseX = event.clientX - parentRect.left - parentRect.width / 2;
+        mouseY = event.clientY - parentRect.top - parentRect.height / 2;
+    }
+    
 
     for (const entity of this.entities) {
         if (entity.hitTest && entity.hitTest(mouseX, mouseY)) {
             entity.onClickHandler();
-            for (const handler of this.mouseClickHandlers) {
-                handler(entity);
-            }
+            // for (const handler of this.mouseClickHandlers) {
+            //     handler(entity);
+            // }
         }
     }
 }
