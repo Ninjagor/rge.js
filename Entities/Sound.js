@@ -2,6 +2,9 @@ export class Sound {
     constructor(path, loop = false) {
         this.audio = new Audio(path);
         this.loop = loop;
+        this.volume = 1; // Default volume is set to 100%
+
+        this.audio.volume = this.volume;
 
         if (loop) {
             this.audio.loop = true;
@@ -39,5 +42,11 @@ export class Sound {
         } catch (error) {
             console.log("error", error);
         }
+    }
+
+    setVolume(volume) {
+        // Ensure volume is between 0 and 1
+        this.volume = Math.max(0, Math.min(1, volume));
+        this.audio.volume = this.volume;
     }
 }

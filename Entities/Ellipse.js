@@ -48,16 +48,19 @@ export class Ellipse extends Entity {
      * @param {string} textureUrl - The URL of the texture image.
      * @param {string} [fillMode="stretched"] - The fill mode for the texture ("stretched" or "cover").
      */
-     setTexture(textureUrl, fillMode = "stretched") {
-        const textureImage = new Image();
-        textureImage.src = textureUrl;
+     setTexture(textureImage, fillMode = "stretched") {
+        // const textureImage = new Image();
+        // textureImage.src = textureUrl;
 
         // Set up an onload event to ensure the image is loaded before rendering
-        textureImage.onload = () => {
-            this.texture = textureImage;
-            this.fillMode = fillMode;
-            this.renderTexture = true;
-        };
+        // textureImage.onload = () => {
+        //     this.texture = textureImage;
+        //     this.fillMode = fillMode;
+        //     this.renderTexture = true;
+        // };
+        this.texture = textureImage;
+        this.fillMode = fillMode;
+        this.renderTexture = true;
     }
 
     /**

@@ -56,6 +56,16 @@ declare module "rge.js" {
         collideEllipseEllipse: (ellipse1: Ellipse, ellipse2: Ellipse) => boolean;
         animationFrameId: number | null;
         renderingOrigin: "topleft" | "center";
+
+        loadImage: (url: "string") => any;
+
+        setPreload: (
+            setup: () => any
+        ) => void;
+
+        setupFunction: (
+            setup: () => any
+        ) => void;
     
         constructor(canvasId: string, targetFps?: number);
     

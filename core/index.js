@@ -9,6 +9,8 @@ import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTra
 
 import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse } from "./collisions/index.js";
 
+import * as entities from "../Entities/index.js";
+
 
 /**
  * Main class representing the game engine.
@@ -104,6 +106,8 @@ export class RGE {
      */
     backgroundImage;
 
+    preloadExecuted;
+
     /**
      * Creates an instance of RGE.
      * @param {string} canvasId - The ID of the HTML canvas element.
@@ -180,13 +184,59 @@ export class RGE {
         this.backgroundImage = null;
         this.backgroundRepeat = null; // Default is no repeat
         this.backgroundSize = null;
+
+        this.preloadExecuted = false;
+        this.preload = () => {
+            this.customPreload()
+            this.preloadExecuted = true; 
+        }
+        this.customPreload = () => {}
+
+        this.preloadedImages = {};
+        this.customPreloadFunction = null;
+
+        this.setupExecuted = false;
+        this.customSetup = () => {}
+
+        this.setup = () => {
+            // setTimeout(() => {
+            //     this.customSetup()
+            //     this.setupExecuted = true;
+            // })
+            this.customSetup()
+                this.setupExecuted = true;
+        }
     }
 
      /**
      * Starts the game loop.
      */
-    start() {
-        this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+     start() {
+        if (!this.preloadExecuted) {
+            this.preload();
+        }
+        if (!this.setupExecuted) {
+            this.setup();
+        }
+        this.canvasLoadingView()
+        setTimeout(() => {
+            console.log("Began gameloop")
+            this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+        }, 1000)
+
+    }
+
+    setPreload(preloadFunction) {
+        this.customPreload = preloadFunction;
+    }
+
+    canvasLoadingView() {
+        this.clearCanvas();
+        const entity = new entities.Text(-80, 0, "Loading...", 30, "black")
+        this.context.save(); // Save the current state of the context
+        this.context.translate(this.canvas.width / 2, this.canvas.height / 2); // Translate to the center
+        entity.render(this.context);
+        this.context.restore();
     }
 
      /**
@@ -234,28 +284,34 @@ export class RGE {
         this.tickFunction = tickFunction;
     }
 
+    setupFunction(setupFunc) {
+        this.customSetup = setupFunc;
+    }
+
     /**
      * The main game loop.
      * @param {number} timestamp - The current timestamp.
      */
     gameLoop(timestamp) {
-        if (!this.lastTimestamp) {
+        if (this.preloadExecuted && this.setupExecuted) {
+            if (!this.lastTimestamp) {
+                this.lastTimestamp = timestamp;
+            }
+
+            const deltaTime = timestamp - this.lastTimestamp;
             this.lastTimestamp = timestamp;
+
+            this.deltaAccumulator += deltaTime;
+
+            while (this.deltaAccumulator >= this.targetFrameTime) {
+                this.tickFunction();
+                this.clearCanvas();
+                this.renderEntities();
+                this.deltaAccumulator -= this.targetFrameTime;
+            }
+
+            requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
         }
-
-        const deltaTime = timestamp - this.lastTimestamp;
-        this.lastTimestamp = timestamp;
-
-        this.deltaAccumulator += deltaTime;
-
-        while (this.deltaAccumulator >= this.targetFrameTime) {
-            this.tickFunction();
-            this.clearCanvas();
-            this.renderEntities();
-            this.deltaAccumulator -= this.targetFrameTime;
-        }
-
-        requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
 
      /**
@@ -275,6 +331,20 @@ export class RGE {
             this.entities.splice(index, 1);
             entity.destroy()
         }
+    }
+
+    /**
+     * Loads an image and saves it to the preloaded images map.
+     * @param {string} imageUrl - URL of the image.
+     * @returns {HTMLImageElement} - Loaded image.
+     */
+    loadImage(imageUrl) {
+        const image = new Image();
+        image.src = imageUrl;
+        // Extracting the image name from the URL as a key
+        const imageName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+        this.preloadedImages[imageName] = image;
+        return image;
     }
 
     setCenterOrigin() {
@@ -298,29 +368,32 @@ export class RGE {
      * @param {string} options.size - Background fill mode (CSS 'background-size' property).
      */
     setBackground(options = {}) {
-        const { color = null, image = null, repeat = null, size = null } = options;
-
+        const { color = null, image = null, repeat = null } = options;
+    
         this.backgroundColor = color;
         this.backgroundImage = image;
         this.backgroundRepeat = repeat;
-        this.backgroundSize = size;
-
+    
         if (color) {
             this.canvas.style.backgroundColor = color;
         } else if (image) {
             let backgroundStyle = `url(${image})`;
-
+    
             if (repeat) {
                 backgroundStyle += ` ${repeat}`;
             }
-
-            if (size) {
-                backgroundStyle += ` / ${size}`;
-            }
-
+    
+            backgroundStyle += ` / 100% 100%`; // Set backgroundSize statically
+    
             this.canvas.style.background = backgroundStyle;
+        } else {
+            // No background options provided, clear the background
+            this.canvas.style.backgroundColor = null;
+            this.canvas.style.background = null;
         }
     }
+    
+    
 
     /**
      * Renders all registered entities
