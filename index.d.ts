@@ -10,6 +10,12 @@ declare module "rge.js" {
         render: (context: CanvasRenderingContext2D) => void;
         destroy: () => void;
     };
+
+    type SetBackgroundType = {
+        image: string | null;
+        color: string | null;
+        repeat: string | null;
+    }
     
     export class Engine {
         canvas: HTMLCanvasElement;
@@ -21,6 +27,11 @@ declare module "rge.js" {
         deltaAccumulator: number;
         keyPressActions: { [key: string]: KeyPressAction };
         pressedKeys: { [key: string]: boolean };
+        backgroundColor: string | null;
+        backgroundImage: string | null;
+        backgroundRepeat: string | null;
+        // Under debugging currently
+        // backgroundSize: string | null;
         addKeyPressAction: (actions: { [key: string]: KeyPressAction }) => void;
         addMouseClickHandler: (handler: MouseClickHandler) => void;
         handleMouseClick: (event: MouseEvent) => void;
@@ -62,6 +73,11 @@ declare module "rge.js" {
         resetOrigin(): void;
         renderEntities(): void;
         customZSort(): void;
+        setBackground(options: {
+            image: string | null;
+            color: string | null;
+            repeat: string | null;
+        }): void;
     }
 
     export class Entity {

@@ -95,6 +95,16 @@ export class RGE {
     mouseY;
 
     /**
+     * @type {string} - Background color of the canvas.
+     */
+    backgroundColor;
+
+    /**
+     * @type {string} - URL of the background image.
+     */
+    backgroundImage;
+
+    /**
      * Creates an instance of RGE.
      * @param {string} canvasId - The ID of the HTML canvas element.
      * @param {number} [targetFps=60] - Target frames per second (default is 60).
@@ -165,6 +175,11 @@ export class RGE {
         this.canvas.addEventListener("mouseup", () => {
             this.isMouseDown = false;
         });
+
+        this.backgroundColor = null;
+        this.backgroundImage = null;
+        this.backgroundRepeat = null; // Default is no repeat
+        this.backgroundSize = null;
     }
 
      /**
@@ -271,7 +286,40 @@ export class RGE {
     }
     
     customZSort() {
+        // Empty func to be optionally configured by the game dev.
+    }
 
+    /**
+     * Abstract method to set the background of the canvas.
+     * @param {Object} options - Background options.
+     * @param {string} options.color - Background color (CSS color string).
+     * @param {string} options.image - URL of the background image.
+     * @param {string} options.repeat - Background repeat mode (CSS 'background-repeat' property).
+     * @param {string} options.size - Background fill mode (CSS 'background-size' property).
+     */
+    setBackground(options = {}) {
+        const { color = null, image = null, repeat = null, size = null } = options;
+
+        this.backgroundColor = color;
+        this.backgroundImage = image;
+        this.backgroundRepeat = repeat;
+        this.backgroundSize = size;
+
+        if (color) {
+            this.canvas.style.backgroundColor = color;
+        } else if (image) {
+            let backgroundStyle = `url(${image})`;
+
+            if (repeat) {
+                backgroundStyle += ` ${repeat}`;
+            }
+
+            if (size) {
+                backgroundStyle += ` / ${size}`;
+            }
+
+            this.canvas.style.background = backgroundStyle;
+        }
     }
 
     /**
