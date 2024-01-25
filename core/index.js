@@ -198,6 +198,8 @@ export class RGE {
         this.setupExecuted = false;
         this.customSetup = () => {}
 
+        this.loadedAssetsCount = 0;
+
         this.setup = () => {
             // setTimeout(() => {
             //     this.customSetup()
@@ -218,11 +220,13 @@ export class RGE {
         if (!this.setupExecuted) {
             this.setup();
         }
+        // this.canvasLoadingView()
         this.canvasLoadingView()
+        this.updateAssetLoadingCount();
         setTimeout(() => {
             console.log("Began gameloop")
             this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
-        }, 1000)
+        }, (Object.keys(this.preloadedImages).length)*250)
 
     }
 
@@ -230,9 +234,25 @@ export class RGE {
         this.customPreload = preloadFunction;
     }
 
+    updateAssetLoadingCount() {
+            let i = 0;
+            const interval = setInterval(() => {
+                console.log("hi there")
+                this.canvasLoadingView()
+                this.loadedAssetsCount += 1;
+
+                if (!(i < Object.keys(this.preloadedImages).length)) {
+                    clearInterval(interval)
+                }
+                i++
+            }, 250)
+    }
+
     canvasLoadingView() {
         this.clearCanvas();
-        const entity = new entities.Text(-80, 0, "Loading...", 30, "black")
+        const entity = new entities.Text(0, 0, `Loading assets (${this.loadedAssetsCount}) of ${Object.keys(this.preloadedImages).length}`, 30, "black")
+        console.log(entity.getWidth(this.context))
+        entity.update(0-(entity.getWidth(this.context)/2), 0)
         this.context.save(); // Save the current state of the context
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2); // Translate to the center
         entity.render(this.context);
