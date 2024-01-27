@@ -200,6 +200,8 @@ export class RGE {
 
         this.loadedAssetsCount = 0;
 
+        this.textureLoadingTime = 1200;
+
         this.setup = () => {
             // setTimeout(() => {
             //     this.customSetup()
@@ -226,7 +228,7 @@ export class RGE {
         setTimeout(() => {
            // console.log("Began gameloop")
             this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
-        }, (Object.keys(this.preloadedImages).length)*(1500/(Object.keys(this.preloadedImages).length)))
+        }, (Object.keys(this.preloadedImages).length)*(this.textureLoadingTime/(Object.keys(this.preloadedImages).length)))
 
     }
 
@@ -245,7 +247,12 @@ export class RGE {
                     clearInterval(interval)
                 }
                 i++
-            }, (1500/(Object.keys(this.preloadedImages).length)))
+            }, (this.textureLoadingTime/(Object.keys(this.preloadedImages).length)))
+    }
+
+    enableDevMode() {
+        console.warn("Dev mode is enabled. This may cause certain security features to be disabled, and may result in unexpected errors. In order to properly utilize devMode, make sure you call it at the TOP of your file (or right after you define `rge`).")
+        this.textureLoadingTime = 0;
     }
 
     canvasLoadingView() {

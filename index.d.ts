@@ -83,6 +83,7 @@ declare module "rge.js" {
         resetOrigin(): void;
         renderEntities(): void;
         customZSort(): void;
+        enableDevMode(): void;
         setBackground(options: {
             image: string | null;
             color: string | null;
