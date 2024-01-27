@@ -224,9 +224,9 @@ export class RGE {
         this.canvasLoadingView()
         this.updateAssetLoadingCount();
         setTimeout(() => {
-            console.log("Began gameloop")
+           // console.log("Began gameloop")
             this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
-        }, (Object.keys(this.preloadedImages).length)*250)
+        }, (Object.keys(this.preloadedImages).length)*(1500/(Object.keys(this.preloadedImages).length)))
 
     }
 
@@ -237,7 +237,7 @@ export class RGE {
     updateAssetLoadingCount() {
             let i = 0;
             const interval = setInterval(() => {
-                console.log("hi there")
+                // console.log("hi there")
                 this.canvasLoadingView()
                 this.loadedAssetsCount += 1;
 
@@ -245,13 +245,13 @@ export class RGE {
                     clearInterval(interval)
                 }
                 i++
-            }, 250)
+            }, (1500/(Object.keys(this.preloadedImages).length)))
     }
 
     canvasLoadingView() {
         this.clearCanvas();
         const entity = new entities.Text(0, 0, `Loading assets (${this.loadedAssetsCount}) of ${Object.keys(this.preloadedImages).length}`, 30, "black")
-        console.log(entity.getWidth(this.context))
+        // console.log(entity.getWidth(this.context))
         entity.update(0-(entity.getWidth(this.context)/2), 0)
         this.context.save(); // Save the current state of the context
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2); // Translate to the center
@@ -285,7 +285,7 @@ export class RGE {
     }
 
     returnPressedKeys() {
-        console.log("Pressed Keys:")
+        // console.log("Pressed Keys:")
     }
 
     /**
@@ -359,6 +359,10 @@ export class RGE {
      * @returns {HTMLImageElement} - Loaded image.
      */
     loadImage(imageUrl) {
+        if (this.preloadExecuted) {
+            throw new Error("loadImage can only be used in preload()");
+            return;
+        }
         const image = new Image();
         image.src = imageUrl;
         // Extracting the image name from the URL as a key
