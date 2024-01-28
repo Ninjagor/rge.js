@@ -68,11 +68,17 @@ export class Ellipse extends Entity {
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     render(context) {
-        if (this.renderTexture && this.texture) {
-            if (this.fillMode === "cover") {
-                this.renderCover(context);
+        console.log(this.texture.complete)
+        if (this.texture) {
+            if (this.texture.complete) {
+                if (this.fillMode === "cover") {
+                    this.renderCover(context);
+                } else {
+                    this.renderStretched(context);
+                }
             } else {
-                this.renderStretched(context);
+                // Texture is still loading, render a gray background
+                this.renderLoadingBackground(context);
             }
         } else {
             context.fillStyle = this.fillColor;
@@ -80,6 +86,14 @@ export class Ellipse extends Entity {
             context.ellipse(this.x, this.y, this.radius, this.radius, 0, 0, 2 * Math.PI);
             context.fill();
         }
+    }
+
+    renderLoadingBackground(context) {
+        const loadingBackgroundColor = "gray";
+        context.fillStyle = loadingBackgroundColor;
+        context.beginPath();
+        context.ellipse(this.x, this.y, this.radius, this.radius, 0, 0, 2 * Math.PI);
+        context.fill();
     }
 
     /**

@@ -89,16 +89,31 @@ export class Rect extends Entity {
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     render(context) {
-        if (this.renderTexture && this.texture) {
-            if (this.fillMode === "cover") {
-                this.renderCover(context);
+        if (this.texture) {
+            if (this.texture.complete) {
+                if (this.fillMode === "cover") {
+                    this.renderCover(context);
+                } else {
+                    this.renderStretched(context);
+                }
             } else {
-                this.renderStretched(context);
+                // Texture is still loading, render a gray background
+                this.renderLoadingBackground(context);
             }
         } else {
             context.fillStyle = this.fillColor;
             context.fillRect(this.x, this.y, this.width, this.height);
         }
+    }
+
+    /**
+     * Renders a gray loading background while the texture is loading.
+     * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+     */
+    renderLoadingBackground(context) {
+        const loadingBackgroundColor = "gray";
+        context.fillStyle = loadingBackgroundColor;
+        context.fillRect(this.x, this.y, this.width, this.height);
     }
 
     /**
