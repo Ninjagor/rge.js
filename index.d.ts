@@ -57,6 +57,13 @@ declare module "rge.js" {
         animationFrameId: number | null;
         renderingOrigin: "topleft" | "center";
 
+        configure: (configs: {
+            preload?: () => void;
+            setup?: () => void;
+            tick?: () => void;
+            centeredOrigin?: boolean;
+        }) => void;
+
         loadImage: (url: "string") => any;
 
         setPreload: (
