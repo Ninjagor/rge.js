@@ -6,10 +6,10 @@ declare module "rge.js" {
     
     type MouseClickHandler = (entity: Entity) => void;
     
-    type Entity = {
-        render: (context: CanvasRenderingContext2D) => void;
-        destroy: () => void;
-    };
+    // type Entity = {
+    //     render: (context: CanvasRenderingContext2D) => void;
+    //     destroy: () => void;
+    // };
 
     type SetBackgroundType = {
         image: string | null;
@@ -64,7 +64,7 @@ declare module "rge.js" {
             centeredOrigin?: boolean;
         }) => void;
 
-        loadImage: (url: "string") => any;
+        loadImage: (image: string) => null | HTMLImageElement;
 
         setPreload: (
             setup: () => any
@@ -118,11 +118,12 @@ declare module "rge.js" {
     export class Polygon extends Entity {
         constructor(x: number, y: number, vertices: any[], fillColor?: string);
     
+        // @ts-expect-error
         update(x: number, y: number, vertices?: any[], fillColor?: string): void;
     
         getBoundingBox(): { x: number; y: number; width: number; height: number };
     
-        setTexture(textureUrl: string, fillMode?: string): void;
+        setTexture(texture: HTMLImageElement, fillMode?: "cover" | "stretched"): void;
     
         render(context: CanvasRenderingContext2D): void;
     
@@ -139,9 +140,10 @@ declare module "rge.js" {
         enableCentered(): void;
         disableCentered(): void;
 
+        // @ts-expect-error
         update(x: number, y: number, fillColor?: string): void;
 
-        setTexture(textureUrl: string, fillMode?: string): void;
+        setTexture(texture: HTMLImageElement, fillMode?: "cover" | "stretched"): void;
 
         render(context: CanvasRenderingContext2D): void;
 
@@ -155,6 +157,7 @@ declare module "rge.js" {
     export class Text extends Entity {
         constructor(x: number, y: number, text: string, fontSize?: number, fillStyle?: string);
 
+        // @ts-expect-error
         update(x: number, y: number, text?: string, fontSize?: number, font?: string): void;
 
         getWidth(context: CanvasRenderingContext2D): number;
@@ -168,9 +171,10 @@ declare module "rge.js" {
 
         constructor(x: number, y: number, radius: number, fillColor?: string);
 
+        // @ts-expect-error
         update(x: number, y: number, radius?: number, fillColor?: string): void;
 
-        setTexture(textureUrl: string, fillMode?: string): void;
+        setTexture(texture: HTMLImageElement, fillMode?: "cover" | "stretched"): void;
 
         render(context: CanvasRenderingContext2D): void;
 
