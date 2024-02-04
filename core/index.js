@@ -88,10 +88,38 @@ export class RGE {
         this.loadImage = loading.loadImage.bind(this);
         this.canvasLoadingView = loading.canvasLoadingView.bind(this);
         this.updateAssetLoadingCount = loading.updateAssetLoadingCount.bind(this);
+
+        this.watchedVariables = [];
     }
 
     setPreload(preloadFunction) {
         this.customPreload = preloadFunction;
+    }
+
+    arraysEqual(a, b) {
+        return a.length === b.length && a.every((value, index) => value === b[index]);
+    }
+
+    watch(callback, dependencies) {
+        this.watchedVariables.push({ dependencies, callback, lastValues: dependencies.map(dep => (typeof dep === 'function' ? dep() : dep)) });
+    }
+    
+    checkWatchedVariables() {
+        for (const watchItem of this.watchedVariables) {
+            const { dependencies, callback } = watchItem;
+            const currentValues = dependencies.map(dep => (typeof dep === 'function' ? dep() : dep));
+
+            if (!Array.isArray(dependencies) || dependencies.some(dep => typeof dep !== 'function')) {
+                const error = new Error("Error: Dependencies must be an array of functions. For example: [() => watchedVar]");
+                error.name = "";
+                throw error;
+            }
+    
+            if (!this.arraysEqual(currentValues, watchItem.lastValues)) {
+                callback();
+                watchItem.lastValues = currentValues;
+            }
+        }
     }
 
     enableDevMode() {
@@ -148,6 +176,7 @@ export class RGE {
                 this.tickFunction();
                 this.clearCanvas();
                 this.renderEntities();
+                this.checkWatchedVariables()
                 this.deltaAccumulator -= this.targetFrameTime;
             }
 
