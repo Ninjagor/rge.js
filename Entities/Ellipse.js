@@ -68,7 +68,6 @@ export class Ellipse extends Entity {
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     render(context) {
-        console.log(this.texture.complete)
         if (this.texture) {
             if (this.texture.complete) {
                 if (this.fillMode === "cover") {

@@ -9,6 +9,8 @@ import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTra
 
 import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse } from "./collisions/index.js";
 
+import { Text } from "../Entities/index.js";
+
 import * as rendering from "./rendering/index.js"
 import * as entities from "../Entities/index.js";
 import * as loading from "./loading/index.js";
@@ -90,6 +92,7 @@ export class RGE {
         this.updateAssetLoadingCount = loading.updateAssetLoadingCount.bind(this);
 
         this.watchedVariables = [];
+        this.debugWatchedEntities = [];
     }
 
     setPreload(preloadFunction) {
@@ -130,6 +133,25 @@ export class RGE {
      resizeCanvas() {
         this.canvas.width = this.canvas.parentElement.clientWidth;
         this.canvas.height = this.canvas.parentElement.clientHeight;
+    }
+
+    debugEntity(entity, offsetY = 10) {
+        const debugText = new Text(entity.x, entity.y, entity.id ? entity.id : "unnamed_entity", 13, "green");
+        this.addEntity(debugText);
+
+        debugText.zIndex = 100;
+
+        const centerMarker = new entities.Ellipse(entity.x, entity.y, 3, "black");
+        this.addEntity(centerMarker);
+
+        centerMarker.zIndex = 100;
+
+        this.debugWatchedEntities.push({
+            text: debugText,
+            entity: entity,
+            centerMarker: centerMarker,
+            offsetY: offsetY
+        })
     }
 
     handleResize = () => {
@@ -177,6 +199,15 @@ export class RGE {
                 this.clearCanvas();
                 this.renderEntities();
                 this.checkWatchedVariables()
+                for (const i in this.debugWatchedEntities) {
+                    let currIndex = this.debugWatchedEntities[i];
+                    try {
+                        currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${currIndex.entity.x}, y: ${currIndex.entity.y}`,13,  "monospace");
+                        currIndex.centerMarker.update(currIndex.entity.x, currIndex.entity.y);
+                    } catch(error) {
+                        console.error(error);
+                    }
+                }
                 this.deltaAccumulator -= this.targetFrameTime;
             }
 

@@ -30,6 +30,8 @@ declare module "rge.js" {
         backgroundColor: string | null;
         backgroundImage: string | null;
         backgroundRepeat: string | null;
+
+        debugEntity: (entity: Entity, offsetY?: number) => void;
         // Under debugging currently
         // backgroundSize: string | null;
         addKeyPressAction: (actions: { [key: string]: KeyPressAction }) => void;

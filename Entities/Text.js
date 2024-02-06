@@ -13,7 +13,7 @@ export class Text extends Entity {
      * @param {number} [fontSize=16] - The font size (default is 16).
      * @param {string} [fillStyle="black"] - The fill style for the text (default is "black").
      */
-    constructor(x, y, text, fontSize = 16, fillStyle = "black") {
+    constructor(x, y, text, fontSize = 16, fillStyle = "black", fontFamily = "Arial") {
         super(x, y);
 
         /**
@@ -32,13 +32,14 @@ export class Text extends Entity {
          * The font family.
          * @type {string}
          */
-        this.font = "Arial";
+        this.font = fontFamily;
 
         /**
          * The fill style for the text.
          * @type {string}
          */
         this.fillStyle = fillStyle;
+
     }
 
     /**
