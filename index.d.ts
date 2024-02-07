@@ -16,6 +16,45 @@ declare module "rge.js" {
         color: string | null;
         repeat: string | null;
     }
+
+    type ButtonDataType = {
+        EngineRef: Engine,
+        buttonColor?: string,
+        borderRadius?: number,
+        borderWidth?: number,
+        borderColor?: string,
+        text: string,
+        textSize?: string,
+        textColor?: string,
+        font?: String,
+        onClick?: () => void;
+    }
+
+    export class Button extends Entity {
+
+        x: number;
+        y: number;
+        data: ButtonDataType;
+        text: string;
+        textSize: number;
+        textColor: string;
+        font: string;
+        fillColor: string;
+        br: number;
+        bw: number;
+        bc: string;
+        onClick: () => void;
+        groupWrapper: null | Group;
+        textRef: null | Text;
+
+        createEntities: () => void;
+
+        constructor(x: number, y: number, data: ButtonDataType);
+    }
+
+    export class UIButton extends Rect {
+        // same ppties basically, more updating TODO
+    }
     
     export class Engine {
         canvas: HTMLCanvasElement;
@@ -102,6 +141,18 @@ declare module "rge.js" {
         }): void;
     }
 
+    export class Group extends Entity {
+        x: number;
+        y: number;
+        entities: Entity[];
+
+        constructor(x: number, y: number);
+
+        addEntity: (entity: Entity) => void;
+
+        removeEntity: (index: number) => void;
+    }
+
     export class Entity {
         x: number;
         y: number;
@@ -124,6 +175,7 @@ declare module "rge.js" {
 
         removeClass(index: number): void;
     }
+
     export class Polygon extends Entity {
         constructor(x: number, y: number, vertices: any[], fillColor?: string);
     

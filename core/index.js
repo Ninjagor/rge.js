@@ -10,6 +10,7 @@ import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTra
 import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse } from "./collisions/index.js";
 
 import { Text } from "../Entities/index.js";
+import { Group } from "../Entities/index.js";
 
 import * as rendering from "./rendering/index.js"
 import * as entities from "../Entities/index.js";
@@ -230,7 +231,7 @@ export class RGE {
                 for (const i in this.debugWatchedEntities) {
                     let currIndex = this.debugWatchedEntities[i];
                     try {
-                        currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}`,13,  "monospace");
+                        currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}; ${currIndex.entity instanceof Group ? `children: ${currIndex.entity.entities.length}` : ""}`,13,  "monospace");
                         currIndex.centerMarker.update(currIndex.entity.x, currIndex.entity.y);
                     } catch(error) {
                         console.error(error);

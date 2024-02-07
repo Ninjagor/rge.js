@@ -35,13 +35,4 @@ export class Group extends Entity {
             entity.render(context);
         });
     }
-
-    hitTest(pointX, pointY) {
-        for (const entity of this.entities) {
-            if (entity.hitTest(pointX, pointY)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
