@@ -75,6 +75,8 @@ declare module "rge.js" {
         setupFunction: (
             setup: () => any
         ) => void;
+
+        watch: (callback: () => any, dependencyArray: [() => Entity])=> void;
     
         constructor(canvasId: string, targetFps?: number);
     
@@ -106,6 +108,7 @@ declare module "rge.js" {
         isDestroyed: boolean;
         zIndex: number;
         onClick: (() => void) | null;
+        class: [];
     
         constructor(x: number, y: number);
     
@@ -116,6 +119,10 @@ declare module "rge.js" {
         destroy(): void;
     
         onClickHandler(): void;
+
+        addClass(className: string): void;
+
+        removeClass(index: number): void;
     }
     export class Polygon extends Entity {
         constructor(x: number, y: number, vertices: any[], fillColor?: string);

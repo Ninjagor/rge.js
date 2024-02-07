@@ -230,7 +230,7 @@ export class RGE {
                 for (const i in this.debugWatchedEntities) {
                     let currIndex = this.debugWatchedEntities[i];
                     try {
-                        currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${currIndex.entity.x}, y: ${currIndex.entity.y}`,13,  "monospace");
+                        currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}`,13,  "monospace");
                         currIndex.centerMarker.update(currIndex.entity.x, currIndex.entity.y);
                     } catch(error) {
                         console.error(error);
