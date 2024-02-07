@@ -38,6 +38,10 @@ export class Entity {
          * @type {?function}
          */
         this.onClick = null;
+
+        this.class = [];
+
+        this.isCurrentlyBeingDebugged = false;
     }
 
     /**
@@ -46,6 +50,14 @@ export class Entity {
      */
     update() {
         throw new Error('Method "update" must be implemented by subclasses');
+    }
+
+    addClass(classname) {
+        this.class.push(classname);
+    }
+
+    removeClass(index) {
+        this.class.pop(index);
     }
 
     addId(id) {

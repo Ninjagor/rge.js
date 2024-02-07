@@ -7,6 +7,12 @@ export class Polygon extends Entity {
         super(x, y);
         this.vertices = vertices;
         this.fillColor = fillColor;
+
+        this.debug = false;
+    }
+
+    debugMode() {
+        this.debug = true;
     }
 
     update(x, y, vertices = this.vertices, fillColor = this.fillColor) {
@@ -74,6 +80,25 @@ export class Polygon extends Entity {
             context.closePath();
             context.fill();
         }
+
+        if (this.debug) {
+            this.renderDebugBorder(context);
+        }
+    }
+
+    renderDebugBorder(context) {
+        const debugBorderColor = "lime";
+        context.strokeStyle = debugBorderColor;
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
+    
+        for (let i = 1; i < this.vertices.length; i++) {
+            context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
+        }
+    
+        context.closePath();
+        context.stroke();
     }
 
     /**

@@ -27,6 +27,17 @@ export class Ellipse extends Entity {
          * @type {string}
          */
         this.fillColor = fillColor;
+
+        this.debug = false;
+    }
+
+    renderDebugBorder(context) {
+        const debugBorderColor = "lime";
+        context.strokeStyle = debugBorderColor;
+        context.lineWidth = 2;
+        context.beginPath();
+        context.ellipse(this.x, this.y, this.radius, this.radius, 0, 0, 2 * Math.PI);
+        context.stroke();
     }
 
     /**
@@ -63,6 +74,10 @@ export class Ellipse extends Entity {
         this.renderTexture = true;
     }
 
+    debugMode() {
+        this.debug = true;
+    }
+
     /**
      * Renders the ellipse on the canvas with optional texture.
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
@@ -84,6 +99,10 @@ export class Ellipse extends Entity {
             context.beginPath();
             context.ellipse(this.x, this.y, this.radius, this.radius, 0, 0, 2 * Math.PI);
             context.fill();
+        }
+
+        if (this.debug) {
+            this.renderDebugBorder(context);
         }
     }
 

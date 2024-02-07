@@ -41,6 +41,19 @@ export class Rect extends Entity {
             this.disableCentered();
         }
 
+        this.debug = false;
+
+    }
+
+    debugMode() {
+        this.debug = true;
+    }
+
+    renderDebugBorder(context) {
+        const debugBorderColor = "#19bf19";
+        context.strokeStyle = debugBorderColor;
+        context.lineWidth = 2;
+        context.strokeRect(this.x, this.y, this.width, this.height);
     }
     
     enableCentered() {
@@ -103,6 +116,10 @@ export class Rect extends Entity {
         } else {
             context.fillStyle = this.fillColor;
             context.fillRect(this.x, this.y, this.width, this.height);
+        }
+
+        if (this.debug) {
+            this.renderDebugBorder(context);
         }
     }
 

@@ -93,6 +93,9 @@ export class RGE {
 
         this.watchedVariables = [];
         this.debugWatchedEntities = [];
+        this.debugWatchedEntitiesBackup = [];
+
+        this.loggingDevMode = false;
     }
 
     setPreload(preloadFunction) {
@@ -125,8 +128,15 @@ export class RGE {
         }
     }
 
-    enableDevMode() {
+    enableDevMode(loggingDevMode = false) {
         console.warn("Dev mode is enabled. This may cause certain security features to be disabled, and may result in unexpected errors. In order to properly utilize devMode, make sure you call it at the TOP of your file (or right after you define `rge`).")
+        if (loggingDevMode) {
+            try {
+                this.loggingDevMode = true;
+            } catch(error) {
+                console.error(error);
+            }
+        }
         this.textureLoadingTime = 0;
     }
 
@@ -139,10 +149,19 @@ export class RGE {
         const debugText = new Text(entity.x, entity.y, entity.id ? entity.id : "unnamed_entity", 13, "green");
         this.addEntity(debugText);
 
+        entity.isCurrentlyBeingDebugged = true;
+
         debugText.zIndex = 100;
 
         const centerMarker = new entities.Ellipse(entity.x, entity.y, 3, "black");
         this.addEntity(centerMarker);
+
+        try {
+            entity.debugMode();
+        } catch(error) {
+            console.warn("Entity does not implement a debug border. If this is a Text entity, Group Entity, or a custom entity, ignore.")
+        }
+
 
         centerMarker.zIndex = 100;
 
@@ -152,6 +171,15 @@ export class RGE {
             centerMarker: centerMarker,
             offsetY: offsetY
         })
+    }
+
+    disableAllEntityDebugs() {
+        this.debugWatchedEntitiesBackup = this.debugWatchedEntities;
+        this.debugWatchedEntities = [];
+    }
+
+    reEnableAllEntityDebugs() {
+        this.debugWatchedEntities = this.debugWatchedEntitiesBackup;
     }
 
     handleResize = () => {
