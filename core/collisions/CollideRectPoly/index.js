@@ -19,7 +19,7 @@ export function collideRectPoly(rect, polygon, interior) {
         var vc = vertices[current];    // c for "current"
         var vn = vertices[next];       // n for "next"
 
-        var collision = this.collideLineRect((vc.x + polygon.x),(vc.y + polygon.y),(vn.x + polygon.y),(vn.y + polygon.y), rx,ry,rw,rh);
+        var collision = this.collideLineRect((vc.x + polygon.x),(vc.y + polygon.y),(vn.x + polygon.x),(vn.y + polygon.y), rx,ry,rw,rh);
         if (collision) return true;
     
         if(interior === true){

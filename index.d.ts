@@ -30,31 +30,60 @@ declare module "rge.js" {
         onClick?: () => void;
     }
 
-    export class Button extends Entity {
+    type PBRectDataType = {
+        EngineRef: Engine,
+        width: number,
+        height: number,
+        rotation?: number,
+        fillColor?: number,
+        onClick?: () => void; 
+    }
 
+    export namespace Widgets {
+        export class Button extends Entity {
+
+            x: number;
+            y: number;
+            data: ButtonDataType;
+            text: string;
+            textSize: number;
+            textColor: string;
+            font: string;
+            fillColor: string;
+            br: number;
+            bw: number;
+            bc: string;
+            onClick: () => void;
+            groupWrapper: null | Group;
+            textRef: null | Text;
+    
+            createEntities: () => void;
+    
+            constructor(x: number, y: number, data: ButtonDataType);
+        }
+    
+        export class UIRect extends Rect {
+            // same ppties basically, more updating TODO
+        }
+    }
+
+    export namespace PolyBased {
+        export class PBRect extends Polygon {
         x: number;
         y: number;
-        data: ButtonDataType;
-        text: string;
-        textSize: number;
-        textColor: string;
-        font: string;
-        fillColor: string;
-        br: number;
-        bw: number;
-        bc: string;
-        onClick: () => void;
-        groupWrapper: null | Group;
-        textRef: null | Text;
+        EngineRef: Engine;
+        width: number;
+        height: number;
+        rotation: number;
+        fillColor: number;
+        polyrectRef: null | Polygon;
+        constructor(x: number, y: number, data: PBRectDataType)
 
-        createEntities: () => void;
-
-        constructor(x: number, y: number, data: ButtonDataType);
+        // @ts-expect-error
+        update: (x: number, y: number, data: PBRectDataType) => void;
+        }
     }
 
-    export class UIButton extends Rect {
-        // same ppties basically, more updating TODO
-    }
     
     export class Engine {
         canvas: HTMLCanvasElement;

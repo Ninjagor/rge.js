@@ -7,7 +7,7 @@
 
 import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTracking } from "./inputs/index.js";
 
-import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse } from "./collisions/index.js";
+import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse, collideLinePoly, collidePolyPoly } from "./collisions/index.js";
 
 import { Text } from "../Entities/index.js";
 import { Group } from "../Entities/index.js";
@@ -53,6 +53,8 @@ export class RGE {
         this.collideLineRect = collideLineRect.bind(this);
         this.collideRectPoly = collideRectPoly.bind(this);
         this.collideEllipseEllipse = collideEllipseEllipse.bind(this);
+        // this.collideLinePoly = collideLinePoly.bind(this);
+        // this.collidePolyPoly = collidePolyPoly.bind(this);
         this.animationFrameId = null;
         window.addEventListener('resize', this.handleResize);
         // Initial canvas resize

@@ -10,3 +10,6 @@ export { collideLineLine } from "./CollideLineLine/index.js"
 export { collideLineRect } from "./CollideLineRect/index.js"
 export { collideRectPoly } from "./CollideRectPoly/index.js"
 export { collideEllipseEllipse } from "./CollideEllipseEllipse/index.js";
+
+export { collideLinePoly } from "./CollideLinePoly/index.js"
+export { collidePolyPoly } from "./CollidePolyPoly/index.js";
