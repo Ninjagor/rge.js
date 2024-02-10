@@ -15,6 +15,7 @@ import { Group } from "../Entities/index.js";
 import * as rendering from "./rendering/index.js"
 import * as entities from "../Entities/index.js";
 import * as loading from "./loading/index.js";
+import * as localdata from "./localdata/index.js";
 
 
 /**
@@ -99,6 +100,8 @@ export class RGE {
         this.debugWatchedEntitiesBackup = [];
 
         this.loggingDevMode = false;
+
+        this.localdata = localdata;
     }
 
     setPreload(preloadFunction) {
