@@ -55,7 +55,9 @@ export class Button extends Entity {
 
             const textWidth = text.getWidth(this.EngineRef.context);
             const textHeight = text.getHeight(this.EngineRef.context)
-            text.update(text.x - (textWidth/2), text.y + (textHeight / 3) + (textHeight / 10));
+            // text.update(text.x - (textWidth/2), text.y + (textHeight / 3) + (textHeight / 10));
+
+
             
 
             const rect = new UIRect(this.x, this.y, textWidth + (textWidth*0.5), textHeight + (textHeight*2), this.fillColor, true, this.br, this.bw, this.bc);
@@ -65,8 +67,14 @@ export class Button extends Entity {
             rect.onClick = this.onClick;
             this.EngineRef.addMouseClickHandler(rect);
 
+                  // text.update(text.x - (textWidth/2), text.y + (textHeight / 3) + (textHeight / 10));
+
             group.addEntity(text);
             group.addEntity(rect);
+
+            text.x = text.x - (textWidth/2)
+            text.y = text.y + (textHeight / 3) + (textHeight / 10)
+
 
             this.groupWrapper = group;
             this.textRef = text;

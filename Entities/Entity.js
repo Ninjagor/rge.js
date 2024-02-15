@@ -42,6 +42,8 @@ export class Entity {
         this.class = [];
 
         this.isCurrentlyBeingDebugged = false;
+
+        this.id = undefined;
     }
 
     /**

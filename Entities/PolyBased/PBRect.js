@@ -32,7 +32,7 @@ export class PBRect extends Entity {
         const rotatedRectPolygon = new Polygon(this.x, this.y, rotatedRectVertices, this.fillColor);
         this.polyrectRef = rotatedRectPolygon;
         this.EngineRef.entities.push(rotatedRectPolygon);
-        this.EngineRef.debugEntity(rotatedRectPolygon);
+        // this.EngineRef.debugEntity(rotatedRectPolygon);
     }
 
     calculateRotatedRectVertices(x, y, width, height, angle) {
@@ -75,8 +75,7 @@ export class PBRect extends Entity {
         const { width = this.width, height = this.height, rotation = this.rotation, fillColor = this.fillColor } = data || {};
     
         if (this.polyrectRef) {
-            this.polyrectRef.x = x;
-            this.polyrectRef.y = y;
+            this.polyrectRef.update(x, y);
             const rotatedRectVertices = this.calculateRotatedRectVertices(this.polyrectRef.x, this.polyrectRef.y, width, height, rotation);
             // console.log(rotatedRectVertices)
             this.polyrectRef.vertices = rotatedRectVertices;

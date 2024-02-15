@@ -10,6 +10,7 @@ export class Group extends Entity {
     addEntity(entity, offsetX = 0, offsetY = 0) {
         this.entities.push(entity);
         this.offsets.push({ x: offsetX, y: offsetY });
+        this.update(this.x, this.y)
     }
 
     removeEntity(entity) {

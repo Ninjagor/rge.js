@@ -9,6 +9,7 @@ export class Polygon extends Entity {
         this.fillColor = fillColor;
 
         this.debug = false;
+        this.imageRotation = 0;
     }
 
     debugMode() {
@@ -51,10 +52,11 @@ export class Polygon extends Entity {
      * @param {string} textureUrl - The URL of the texture image.
      * @param {string} [fillMode="stretched"] - The fill mode for the texture ("stretched" or "cover").
      */
-     setTexture(textureUrl, fillMode = "stretched") {
+     setTexture(textureImage, rotation = 0, fillMode = "stretched") {
         this.texture = textureImage;
         this.fillMode = fillMode;
         this.renderTexture = true;
+        this.imageRotation = rotation;
     }
 
     /**
@@ -106,18 +108,19 @@ export class Polygon extends Entity {
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     renderStretched(context) {
-        context.save();
-        context.beginPath();
-        context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
-
-        for (let i = 1; i < this.vertices.length; i++) {
-            context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
-        }
-
-        context.closePath();
-        context.clip();
-        context.drawImage(this.texture, this.x, this.y, this.getWidth(), this.getHeight());
-        context.restore();
+        // context.save();
+        // context.beginPath();
+        // context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
+        //
+        // for (let i = 1; i < this.vertices.length; i++) {
+        //     context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
+        // }
+        //
+        // context.closePath();
+        // context.clip();
+        // context.drawImage(this.texture, this.x, this.y, this.getWidth(), this.getHeight());
+        // context.restore();
+      this.renderCover(context);
     }
 
     /**
@@ -125,11 +128,15 @@ export class Polygon extends Entity {
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     renderCover(context) {
-        const boundingBox = this.getBoundingBox();
+const boundingBox = this.getBoundingBox();
         const targetWidth = boundingBox.width;
         const targetHeight = boundingBox.height;
 
         context.save();
+        context.translate(this.x, this.y); // Translate to the center of the polygon
+        context.rotate(this.imageRotation * Math.PI / 180); // Apply rotation
+        context.translate(-this.x, -this.y); // Translate back
+
         context.beginPath();
         context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
 
@@ -140,7 +147,7 @@ export class Polygon extends Entity {
         context.closePath();
         context.clip();
         context.drawImage(this.texture, boundingBox.x, boundingBox.y, targetWidth, targetHeight);
-        context.restore();
+        context.restore();       context.restore();
     }
 
     hitTest(pointX, pointY) {
