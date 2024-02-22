@@ -22,8 +22,13 @@ import * as localdata from "./localdata/index.js";
  * @class
  */
 export class RGE {
-    constructor(canvasId, targetFps = 60) {
+    constructor(canvasId, targetFps = 60, data = {}) {
+        const { isEmbedded = false } = data;
+        this.isEmbedded = isEmbedded;
         this.canvas = document.getElementById(canvasId);
+        if (this.isEmbedded) {
+            this.canvas.setAttribute('data-entities', JSON.stringify([]));
+        }
         this.context = this.canvas.getContext('2d');
         this.entities = [];
         this.tickFunction = () => {};
@@ -216,6 +221,12 @@ export class RGE {
         if (this.preloadExecuted && this.setupExecuted) {
             if (!this.lastTimestamp) {
                 this.lastTimestamp = timestamp;
+            }
+
+            // Embedded Engine Logic
+            if (this.isEmbedded) {
+                const entityData = JSON.stringify(this.entities);
+                this.canvas.setAttribute('data-entities', entityData);
             }
 
             const deltaTime = timestamp - this.lastTimestamp;

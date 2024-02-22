@@ -39,6 +39,10 @@ declare module "rge.js" {
         onClick?: () => void; 
     }
 
+    type EngineDataParams = {
+        isEmbedded: boolean;
+    }
+
     export namespace Widgets {
         export class Button extends Entity {
 
@@ -146,7 +150,7 @@ declare module "rge.js" {
 
         watch: (callback: () => any, dependencyArray: [() => Entity])=> void;
     
-        constructor(canvasId: string, targetFps?: number);
+        constructor(canvasId: string, targetFps?: number, data: EngineDataParams);
     
         start(): void;
         resizeCanvas(): void;
