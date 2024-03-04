@@ -39,6 +39,15 @@ declare module "rge.js" {
         onClick?: () => void; 
     }
 
+    type HTMLBasedPopupDataType = {
+        width: string;
+        height: string;
+        title: string;
+        startXOffset: number;
+        startYOffset: number;
+        customDestructor: () => any;
+    }
+
     type EngineDataParams = {
         isEmbedded: boolean;
     }
@@ -69,6 +78,12 @@ declare module "rge.js" {
         export class UIRect extends Rect {
             // same ppties basically, more updating TODO
         }
+
+        export class HTMLBasedPopup {
+            constructor(containerId: string, contents: HTMLElement, data: HTMLBasedPopupDataType)
+
+            removePopup: () => void;
+        }
     }
 
     export namespace PolyBased {
@@ -87,6 +102,7 @@ declare module "rge.js" {
         update: (x: number, y: number, data: PBRectDataType) => void;
         }
     }
+
 
     
     export class Engine {

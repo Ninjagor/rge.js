@@ -29,6 +29,7 @@ export class RGE {
         if (this.isEmbedded) {
             this.canvas.setAttribute('data-entities', JSON.stringify([]));
         }
+        this.canvasId = canvasId;
         this.context = this.canvas.getContext('2d');
         this.entities = [];
         this.tickFunction = () => {};
