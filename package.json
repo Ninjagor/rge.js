@@ -1,9 +1,9 @@
 {
   "name": "rge.js",
-  "version": "0.2.0-alpha",
+  "version": "0.2.1",
   "description": "RGE.js is a Javascript library for simple and intuitive game development and digital art.",
   "main": "index.js",
-  "website": "https://rge-editor.vercel.app/code",
+  "homepage": "https://rge-site.vercel.app/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ninjagor/rge.js.git"

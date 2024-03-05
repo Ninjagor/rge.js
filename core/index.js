@@ -107,6 +107,8 @@ export class RGE {
         this.loggingDevMode = false;
 
         this.localdata = localdata;
+
+        this.isStopped = false;
     }
 
     setPreload(preloadFunction) {
@@ -198,12 +200,17 @@ export class RGE {
     };
 
     stop() {
-        cancelAnimationFrame(this.animationFrameId);
+        this.isStopped = true;
+
         this.entities = [];
         this.keyPressActions = {};
         this.pressedKeys = {};
         this.mouseClickHandlers = [];
+        // console.warn(this.tickFunction)
         this.tickFunction = () => {};
+        // console.warn(this.tickFunction)
+        // console.warn(this.animationFrameId)
+        cancelAnimationFrame(this.animationFrameId);
     }
 
     addEntity(entity) {
@@ -219,46 +226,56 @@ export class RGE {
     }
 
     gameLoop(timestamp) {
-        if (this.preloadExecuted && this.setupExecuted) {
-            if (!this.lastTimestamp) {
-                this.lastTimestamp = timestamp;
-            }
-
-            // Embedded Engine Logic
-            if (this.isEmbedded) {
-                const entityData = JSON.stringify(this.entities);
-                this.canvas.setAttribute('data-entities', entityData);
-            }
-
-            const deltaTime = timestamp - this.lastTimestamp;
-            this.lastTimestamp = timestamp;
-
-            this.deltaAccumulator += deltaTime;
-
-            while (this.deltaAccumulator >= this.targetFrameTime) {
-                this.tickFunction();
-                this.clearCanvas();
-                this.renderEntities();
-                this.checkWatchedVariables()
-                for (const i in this.debugWatchedEntities) {
-                    let currIndex = this.debugWatchedEntities[i];
-                    if (currIndex.isDestroyed == true) {
-                      console.log('ya')
-                      this.debugWatchedEntities.pop(i)
-                      break;
-                    }
-                    try {
-                        currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}; ${currIndex.entity instanceof Group ? `children: ${currIndex.entity.entities.length}` : ""}`,13,  "monospace");
-                        currIndex.centerMarker.update(currIndex.entity.x, currIndex.entity.y);
-                    } catch(error) {
-                        console.error(error);
-                    }
+        if (this.isStopped) {
+            this.clearCanvas();
+            return;
+        } else {
+            if (this.preloadExecuted && this.setupExecuted) {
+                if (!this.lastTimestamp) {
+                    this.lastTimestamp = timestamp;
                 }
-                this.deltaAccumulator -= this.targetFrameTime;
+    
+                // Embedded Engine Logic
+                if (this.isEmbedded) {
+                    const entityData = JSON.stringify(this.entities);
+                    this.canvas.setAttribute('data-entities', entityData);
+                }
+    
+                const deltaTime = timestamp - this.lastTimestamp;
+                this.lastTimestamp = timestamp;
+    
+                this.deltaAccumulator += deltaTime;
+                if (this.isStopped) {
+                    return
+                }
+                while (this.deltaAccumulator >= this.targetFrameTime) {
+                    this.tickFunction();
+                    // console.log("i ran tick func.")
+                    // console.log(this.tickFunction)
+                    this.clearCanvas();
+                    this.renderEntities();
+                    this.checkWatchedVariables()
+                    for (const i in this.debugWatchedEntities) {
+                        let currIndex = this.debugWatchedEntities[i];
+                        if (currIndex.isDestroyed == true) {
+                          // console.log('ya')
+                          this.debugWatchedEntities.pop(i)
+                          break;
+                        }
+                        try {
+                            currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}; ${currIndex.entity instanceof Group ? `children: ${currIndex.entity.entities.length}` : ""}`,13,  "monospace");
+                            currIndex.centerMarker.update(currIndex.entity.x, currIndex.entity.y);
+                        } catch(error) {
+                            console.error(error);
+                        }
+                    }
+                    this.deltaAccumulator -= this.targetFrameTime;
+                }
+    
+                this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
             }
-
-            requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
         }
+        
     }
 
     clearCanvas() {

@@ -86,6 +86,47 @@ declare module "rge.js" {
         }
     }
 
+    export class Scene {
+        constructor(canvasId: string, fps: number);
+
+        engine: Engine;
+
+        configuration(config: {
+            preload?: () => void;
+            setup?: () => void;
+            tick?: () => void;
+            centeredOrigin?: boolean;
+        });
+
+        start: () => void;
+
+        stop: () => void;
+    }
+
+    export class SceneManager{
+        constructor();
+        scenes: {
+            [key: string]: [Scene, {
+                preload?: () => void;
+                setup?: () => void;
+                tick?: () => void;
+                centeredOrigin?: boolean;
+            }]
+        };
+        currentScene: null | Scene;
+        currentEngine: null | Engine;
+        addScene: (sceneName: string, scene: Scene, config: {
+            preload?: () => void;
+            setup?: () => void;
+            tick?: () => void;
+            centeredOrigin?: boolean;
+        }) => void;
+
+        setScene: (sceneName: string) => void;
+
+        startScene: () => void;
+    }
+
     export namespace PolyBased {
         export class PBRect extends Polygon {
         x: number;

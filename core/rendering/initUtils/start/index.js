@@ -1,4 +1,5 @@
 export function start() {
+    this.isStopped = false;
     if (!this.preloadExecuted) {
         this.preload();
     }
