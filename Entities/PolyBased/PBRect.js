@@ -6,7 +6,7 @@ export class PBRect extends Entity {
     constructor(x, y, data) {
         super(x, y);
 
-        const { EngineRef, width, height, rotation = 0, fillColor = "red" } = data;
+        const { EngineRef, width, height, rotation = 0, fillColor = "red", borderWidth = 0, borderColor = "black" } = data;
 
         if (!EngineRef || !(EngineRef instanceof RGE)) {
             throw new Error("EngineRef is required as instance of Engine.");
@@ -20,7 +20,8 @@ export class PBRect extends Entity {
         this.rotation = rotation;
         this.fillColor = fillColor;
         this.EngineRef = EngineRef;
-
+        this.borderWidth = borderWidth;
+        this.borderColor = borderColor;
         this.polyrectRef = null;
 
         this.generatePoly();
@@ -29,7 +30,10 @@ export class PBRect extends Entity {
     generatePoly() {
         const rotatedRectVertices = this.calculateRotatedRectVertices(this.x, this.y, this.width, this.height, this.rotation);
 
-        const rotatedRectPolygon = new Polygon(this.x, this.y, rotatedRectVertices, this.fillColor);
+        const rotatedRectPolygon = new Polygon(this.x, this.y, rotatedRectVertices, this.fillColor, {
+            borderWidth: this.borderWidth,
+            borderColor: this.borderColor
+        });
         this.polyrectRef = rotatedRectPolygon;
         this.EngineRef.entities.push(rotatedRectPolygon);
         // this.EngineRef.debugEntity(rotatedRectPolygon);

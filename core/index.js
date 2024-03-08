@@ -112,6 +112,9 @@ export class RGE {
         this.localdata = localdata;
 
         this.isStopped = false;
+
+        this.camx = 0;
+        this.camy = 0;
     }
 
     print(output, type = "log") {

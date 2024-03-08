@@ -3,11 +3,13 @@ import { Rect } from "./Rect.js";
 import { Ellipse } from "./Ellipse.js";
 
 export class Polygon extends Entity {
-    constructor(x, y, vertices, fillColor = "green") {
+    constructor(x, y, vertices, fillColor = "green", data = {}) {
         super(x, y);
+        const { borderWidth = 0, borderColor = "black" } = data;
         this.vertices = vertices;
         this.fillColor = fillColor;
-
+        this.borderWidth = borderWidth;
+        this.borderColor = borderColor;
         this.debug = false;
         this.imageRotation = 0;
     }
@@ -79,6 +81,7 @@ export class Polygon extends Entity {
                 context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
             }
 
+            this.renderBorder(context)
             context.closePath();
             context.fill();
         }
@@ -92,6 +95,21 @@ export class Polygon extends Entity {
         const debugBorderColor = "lime";
         context.strokeStyle = debugBorderColor;
         context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
+    
+        for (let i = 1; i < this.vertices.length; i++) {
+            context.lineTo(this.vertices[i].x + this.x, this.vertices[i].y + this.y);
+        }
+    
+        context.closePath();
+        context.stroke();
+    }
+
+    renderBorder(context) {
+        const borderColor = this.borderColor;
+        context.strokeStyle = borderColor;
+        context.lineWidth = this.borderWidth;
         context.beginPath();
         context.moveTo(this.vertices[0].x + this.x, this.vertices[0].y + this.y);
     

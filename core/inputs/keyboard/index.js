@@ -1,12 +1,9 @@
 export function addKeyPressAction(actions) {
     // Track the state of each key
-    // const keyStates = {};
-
-    const keyStates = this.keyStates;
+    const keyStates = {};
 
     const handleKeyPress = (event) => {
         const key = event.key;
-        // console.log(this.keyStates)
         if (!keyStates[key] && actions[key] && actions[key].press) {
             keyStates[key] = true;
             actions[key].press();
@@ -21,23 +18,16 @@ export function addKeyPressAction(actions) {
         }
     };
 
-    // Dynamically add event listeners for key press and key release
+    const handleKeyHold = (key) => {
+        if (keyStates[key] && actions[key] && actions[key].hold) {
+            actions[key].hold();
+        }
+    };
+
+    // Dynamically add event listeners for key press, key release, and key hold
     for (const key in actions) {
         document.addEventListener('keydown', handleKeyPress);
         document.addEventListener('keyup', handleKeyUp);
+        setInterval(() => handleKeyHold(key), 100);
     }
 }
-
-// export function handleKeyPress(event) {
-//     const key = event.key;
-//     console.log("hi")
-//     if (!this.pressedKeys[key] && this.keyPressActions[key]) {
-//         this.pressedKeys[key] = true;
-//         this.keyPressActions[key]();
-//     }
-// }
-
-// export function handleKeyUp(event) {
-//     const key = event.key;
-//     this.pressedKeys[key] = false;
-// }

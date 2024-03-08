@@ -1,4 +1,5 @@
 import { Scene } from "./Scene.js";
+import { CameraManager } from "./CameraManager.js";
 
 export class SceneManager {
     constructor() {
@@ -7,6 +8,8 @@ export class SceneManager {
         };
         this.currentScene = null;
         this.currentEngine = null;
+
+        this.cameraManager = null;
     }
 
     addScene(sceneName, scene, configuration) {
@@ -28,6 +31,10 @@ export class SceneManager {
         }
         this.currentScene = this.scenes[sceneName];
         this.currentEngine = this.currentScene[0].engine;
+        if (this.cameraManager) {
+            this.cameraManager.engineRef = this.currentEngine;
+            this.cameraManager.activateCamera();
+        }
         this.startScene();
     }
 
@@ -36,5 +43,12 @@ export class SceneManager {
             this.currentScene[0].configure(this.currentScene[1]);
             this.currentScene[0].start();
         }
+    }
+
+    addCameraManager(cameraManager) {
+        if (!(cameraManager instanceof CameraManager)) {
+            throw new Error("Expected instanceof CameraManager.");
+        }
+        this.cameraManager = cameraManager;
     }
 }
