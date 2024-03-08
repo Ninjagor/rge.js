@@ -50,6 +50,7 @@ declare module "rge.js" {
 
     type EngineDataParams = {
         isEmbedded: boolean;
+        __fcm__: boolean;
     }
 
     export namespace Widgets {
@@ -207,8 +208,9 @@ declare module "rge.js" {
 
         watch: (callback: () => any, dependencyArray: [() => Entity])=> void;
     
-        constructor(canvasId: string, targetFps?: number, data: EngineDataParams);
-    
+        constructor(canvasId: string, data: EngineDataParams, targetFps?: number);
+            
+        print(output: string): void; 
         start(): void;
         resizeCanvas(): void;
         handleResize(): void;

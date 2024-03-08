@@ -23,11 +23,14 @@ import * as localdata from "./localdata/index.js";
  */
 export class RGE {
     constructor(canvasId, targetFps = 60, data = {}) {
-        const { isEmbedded = false } = data;
+        const { isEmbedded = false, __fcm__ = false } = data;
         this.isEmbedded = isEmbedded;
         this.canvas = document.getElementById(canvasId);
         if (this.isEmbedded) {
             this.canvas.setAttribute('data-entities', JSON.stringify([]));
+        }
+        if (!__fcm__) {
+            console.warn("Your code contains a raw Engine instantiation, which is not recommended for larger scale projects. Use SceneManager instead. To ignore, set __fcm__ to true in your Engine instantiation.")
         }
         this.canvasId = canvasId;
         this.context = this.canvas.getContext('2d');
@@ -109,6 +112,16 @@ export class RGE {
         this.localdata = localdata;
 
         this.isStopped = false;
+    }
+
+    print(output, type = "log") {
+        if (type == "error") {
+            console.error(output);
+        } else if (type == "warn") {
+            console.warn(output);
+        } else {
+            console.log(output);
+        }
     }
 
     setPreload(preloadFunction) {

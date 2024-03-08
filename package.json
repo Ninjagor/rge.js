@@ -1,6 +1,6 @@
 {
   "name": "rge.js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "RGE.js is a Javascript library for simple and intuitive game development and digital art.",
   "main": "index.js",
   "homepage": "https://rge-site.vercel.app/",
@@ -25,6 +25,5 @@
   },
   "author": "Rohit Karthik",
   "license": "ISC",
-  "devDependencies": {
-  }
+  "dependencies": {}
 }

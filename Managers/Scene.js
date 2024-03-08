@@ -2,7 +2,9 @@ import { RGE as Engine } from "../core/index.js";
 
 export class Scene {
     constructor(canvasId, fps = 120) {
-        this.engine = new Engine(canvasId, fps);
+        this.engine = new Engine(canvasId, fps, {
+            __fcm__: true
+        });
     }
 
     configure(configuration = {}) {
