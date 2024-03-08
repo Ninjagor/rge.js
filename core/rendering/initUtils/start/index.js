@@ -1,12 +1,13 @@
-export function start() {
+export async function start() {
     this.isStopped = false;
+    this.canvasLoadingView()
     if (!this.preloadExecuted) {
-        this.preload();
+        await this.preload();
     }
     if (!this.setupExecuted) {
         this.setup();
     }
-    this.canvasLoadingView()
+
     this.updateAssetLoadingCount();
     // for (const i in this.entities) {
     //     if (!this.entities[i].isCurrentlyBeingDebugged) {

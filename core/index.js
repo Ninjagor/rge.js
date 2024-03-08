@@ -81,17 +81,17 @@ export class RGE {
         this.backgroundRepeat = null; // Default is no repeat
         this.backgroundSize = null;
         this.preloadExecuted = false;
-        this.preload = () => {
-            this.customPreload()
-            this.preloadExecuted = true; 
+        this.preload = async() => {
+            await this.customPreload()
+            this.preloadExecuted = true;
         }
-        this.customPreload = () => {}
+        this.customPreload = async() => {}
         this.preloadedImages = {};
         this.customPreloadFunction = null;
         this.setupExecuted = false;
         this.customSetup = () => {}
         this.loadedAssetsCount = 0;
-        this.textureLoadingTime = 1200;
+        this.textureLoadingTime = 0;
         this.setup = () => {
             this.customSetup()
             this.setupExecuted = true;
