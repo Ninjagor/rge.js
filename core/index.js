@@ -149,13 +149,15 @@ export class RGE {
                 error.name = "";
                 throw error;
             }
-    
+            // console.log(currentValues, watchItem.lastValues)
             if (!this.arraysEqual(currentValues, watchItem.lastValues)) {
                 callback();
                 watchItem.lastValues = currentValues;
             }
         }
     }
+    
+    
 
     enableDevMode(loggingDevMode = false) {
         console.warn("Dev mode is enabled. This may cause certain security features to be disabled, and may result in unexpected errors. In order to properly utilize devMode, make sure you call it at the TOP of your file (or right after you define `rge`).")

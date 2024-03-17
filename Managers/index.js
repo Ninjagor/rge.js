@@ -2,3 +2,4 @@ export { Scene } from "./Scene.js";
 export { SceneManager } from "./SceneManager.js";
 export { Camera } from "./Camera.js";
 export { CameraManager } from "./CameraManager.js";
+export { StateManager } from "./StateManager.js";
