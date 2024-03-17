@@ -24,7 +24,7 @@ import * as localdata from "./localdata/index.js";
  */
 export class RGE {
     constructor(canvasId, targetFps = 60, data = {}) {
-        const { isEmbedded = false, __fcm__ = false } = data;
+        const { isEmbedded = false, __fcm__ = false, maxEntities = 500 } = data;
         this.isEmbedded = isEmbedded;
         this.canvas = document.getElementById(canvasId);
         if (this.isEmbedded) {
@@ -33,6 +33,7 @@ export class RGE {
         if (!__fcm__) {
             console.warn("Your code contains a raw Engine instantiation, which is not recommended for larger scale projects. Use SceneManager instead. To ignore, set __fcm__ to true in your Engine instantiation.")
         }
+        this.maxEntities = maxEntities;
         this.canvasId = canvasId;
         this.context = this.canvas.getContext('2d');
         this.entities = [];
@@ -245,6 +246,14 @@ export class RGE {
     }
 
     addEntity(entity) {
+        if (this.entities.length+1 > this.maxEntities) {
+            new Error("Entity Overflow Error", `The current engine is currently holding <br><br> ${this.entities.length} <br><br> entities, which is the set limit. In order to increase the limit, please add <br><br>
+            maxEntities: (desiredMax) <br><br> to the constructor of the engine OR, add <br><br>
+            (engine).maxEntities = (desiredMax) <br><br> to your code. If you would like to remove this limit, please set maxEntities to Infinity.`, this.canvasId, "addEntity()");
+            const error = new Error("Entity Overflow Error: Entities array has reached its limit. Modify the engine maxEntities value.");
+            error.name = "";
+            throw error;
+        }
         this.entities.push(entity);
     }
 

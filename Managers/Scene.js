@@ -8,7 +8,8 @@ export class Scene {
     }
 
     configure(configuration = {}) {
-        const { preload = () => {}, setup = () => {}, tick = () => {}, centeredOrigin = false } = configuration;
+        const { preload = () => {}, setup = () => {}, tick = () => {}, centeredOrigin = false, maxEntities = 500 } = configuration;
+        this.engine.maxEntities = maxEntities;
         this.engine.configure({
             preload: preload,
             setup: setup,
