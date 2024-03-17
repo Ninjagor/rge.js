@@ -54,6 +54,9 @@ declare module "rge.js" {
     }
 
     export namespace Widgets {
+        export class Error {
+            constructor(errorHeader?: string, errorDetails: string, canvasId: string, instigatingFunction?: string);
+        }
         export class Button extends Entity {
 
             x: number;

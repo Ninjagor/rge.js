@@ -11,6 +11,7 @@ import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, co
 
 import { Text } from "../Entities/index.js";
 import { Group } from "../Entities/index.js";
+import { Error } from "../Entities/Widgets/Error.js";
 
 import * as rendering from "./rendering/index.js"
 import * as entities from "../Entities/index.js";
@@ -136,15 +137,27 @@ export class RGE {
     }
 
     watch(callback, dependencies) {
+        if (!(Array.isArray(dependencies))) {
+            new Error("Dependecy Array Error: Invalid Dependencies", `The dependencies which you provided: <br> <br> '${dependencies}' <br> <br> is not an array of callback functions. Please follow the format: <br> <br> '[() => watchedVar]'`, this.canvasId, "watch()");
+            const error = new Error("Error: Dependencies must be an array of functions. For example: [() => watchedVar]");
+            error.name = "";
+            throw error;
+        }
         this.watchedVariables.push({ dependencies, callback, lastValues: dependencies.map(dep => (typeof dep === 'function' ? dep() : dep)) });
     }
     
     checkWatchedVariables() {
         for (const watchItem of this.watchedVariables) {
             const { dependencies, callback } = watchItem;
+            if (!(Array.isArray(dependencies))) {
+                new Error("Dependecy Array Error: Invalid Dependencies", `The dependencies which you provided: <br> <br> '${dependencies}' <br> <br> is not an array of callback functions. Please follow the format: <br> <br> '[() => watchedVar]'`, this.canvasId, "watch()");
+                const error = new Error("Error: Dependencies must be an array of functions. For example: [() => watchedVar]");
+                error.name = "";
+                throw error;
+            }
             const currentValues = dependencies.map(dep => (typeof dep === 'function' ? dep() : dep));
-
             if (!Array.isArray(dependencies) || dependencies.some(dep => typeof dep !== 'function')) {
+                new Error("Dependecy Array Error: Invalid Dependencies", `The dependencies which you provided: <br> <br> '${JSON.stringify(dependencies)}' <br> <br> is not an array of callback functions. Please follow the format: <br> <br> '[() => watchedVar]'`, this.canvasId, "watch()");
                 const error = new Error("Error: Dependencies must be an array of functions. For example: [() => watchedVar]");
                 error.name = "";
                 throw error;
