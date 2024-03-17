@@ -54,6 +54,17 @@ declare module "rge.js" {
     }
 
     export namespace Widgets {
+        export class HTMLButton {
+            constructor(x: number, y: number, data: {
+                text?: string;
+                onClick?: () => any;
+                style?: string;
+                id: string;
+            });
+
+            destroy: () => void;
+            render: () => void;
+        }
         export class Error {
             constructor(errorHeader?: string, errorDetails: string, canvasId: string, instigatingFunction?: string);
         }
