@@ -8,7 +8,11 @@ export class Scene {
     }
 
     configure(configuration = {}) {
-        const { preload = () => {}, setup = () => {}, tick = () => {}, centeredOrigin = false, maxEntities = 500 } = configuration;
+        const { preload = () => {}, setup = () => {}, tick = () => {}, centeredOrigin = false, maxEntities = 500, webGLMode = false } = configuration;
+        if (webGLMode) {
+            this.engine.webGLMode = true;
+            this.engine.context = this.engine.canvas.getContext('webgl');
+        }
         this.engine.maxEntities = maxEntities;
         this.engine.configure({
             preload: preload,

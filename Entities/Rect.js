@@ -14,7 +14,7 @@ export class Rect extends Entity {
      * @param {number} height - The height of the rectangle.
      * @param {string} [fillColor="blue"] - The fill color of the rectangle (default is "blue").
      */
-    constructor(x, y, width, height, fillColor = "blue", centered = true) {
+    constructor(x, y, width, height, fillColor = "blue", data = {},  centered = true) {
         super(x, y);
 
         /**
@@ -22,6 +22,8 @@ export class Rect extends Entity {
          * @type {number}
          */
         this.width = width;
+
+        const { borderWidth, borderColor } = data;
 
         /**
          * The height of the rectangle.
@@ -53,6 +55,13 @@ export class Rect extends Entity {
         const debugBorderColor = "#19bf19";
         context.strokeStyle = debugBorderColor;
         context.lineWidth = 2;
+        context.strokeRect(this.x, this.y, this.width, this.height);
+    }
+
+    renderBorder(context, width, color) {
+        const borderColor = color;
+        context.strokeStyle = borderColor;
+        context.lineWidth = width;
         context.strokeRect(this.x, this.y, this.width, this.height);
     }
     
@@ -116,6 +125,8 @@ export class Rect extends Entity {
         } else {
             context.fillStyle = this.fillColor;
             context.fillRect(this.x, this.y, this.width, this.height);
+
+            this.renderBorder(context, this.borderWidth, this.borderColor)
         }
 
         if (this.debug) {

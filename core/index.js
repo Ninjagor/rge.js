@@ -24,7 +24,7 @@ import * as localdata from "./localdata/index.js";
  */
 export class RGE {
     constructor(canvasId, targetFps = 60, data = {}) {
-        const { isEmbedded = false, __fcm__ = false, maxEntities = 500 } = data;
+        const { isEmbedded = false, __fcm__ = false, maxEntities = 500, webGLMode = false } = data;
         this.isEmbedded = isEmbedded;
         this.canvas = document.getElementById(canvasId);
         if (this.isEmbedded) {
@@ -35,7 +35,13 @@ export class RGE {
         }
         this.maxEntities = maxEntities;
         this.canvasId = canvasId;
-        this.context = this.canvas.getContext('2d');
+        if (webGLMode) {
+            this.context = this.canvas.getContext('webgl');
+        } else {
+            this.context = this.canvas.getContext('2d');
+        }
+
+        this.webGLMode = webGLMode;
         this.entities = [];
         this.tickFunction = () => {};
         this.targetFps = targetFps;
@@ -64,8 +70,8 @@ export class RGE {
         this.collideLineRect = collideLineRect.bind(this);
         this.collideRectPoly = collideRectPoly.bind(this);
         this.collideEllipseEllipse = collideEllipseEllipse.bind(this);
-        // this.collideLinePoly = collideLinePoly.bind(this);
-        // this.collidePolyPoly = collidePolyPoly.bind(this);
+        this.collideLinePoly = collideLinePoly.bind(this);
+        this.collidePolyPoly = collidePolyPoly.bind(this);
         this.animationFrameId = null;
         window.addEventListener('resize', this.handleResize);
         // Initial canvas resize
