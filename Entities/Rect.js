@@ -25,6 +25,9 @@ export class Rect extends Entity {
 
         const { borderWidth, borderColor } = data;
 
+        this.borderColor = borderColor;
+        this.borderWidth = borderWidth;
+
         /**
          * The height of the rectangle.
          * @type {number}
