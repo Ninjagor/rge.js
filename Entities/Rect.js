@@ -23,7 +23,7 @@ export class Rect extends Entity {
          */
         this.width = width;
 
-        const { borderWidth, borderColor } = data;
+        const { borderWidth = 0, borderColor } = data;
 
         this.borderColor = borderColor;
         this.borderWidth = borderWidth;
@@ -62,6 +62,9 @@ export class Rect extends Entity {
     }
 
     renderBorder(context, width, color) {
+        if (this.borderWidth < 1) {
+            return;
+        }
         const borderColor = color;
         context.strokeStyle = borderColor;
         context.lineWidth = width;
