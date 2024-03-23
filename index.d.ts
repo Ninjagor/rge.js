@@ -118,6 +118,16 @@ declare module "rge.js" {
         stop: () => void;
     }
 
+    export class EntityManager {
+        constructor(engineRef: RGE);
+        entity: any;
+        hitbox: any;
+        setEntity: (entity: any) => void;
+        setHitbox: (entity: any) => void;
+        render: () => void;
+        destroy: () => void;
+    }
+
     export class SceneManager{
         constructor();
         scenes: {

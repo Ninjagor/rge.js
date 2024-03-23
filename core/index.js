@@ -145,7 +145,7 @@ export class RGE {
 
     watch(callback, dependencies) {
         if (!(Array.isArray(dependencies))) {
-            new Error("Dependecy Array Error: Invalid Dependencies", `The dependencies which you provided: <br> <br> '${dependencies}' <br> <br> is not an array of callback functions. Please follow the format: <br> <br> '[() => watchedVar]'`, this.canvasId, "watch()");
+            new Error("Dependency Array Error: Invalid Dependencies", `The dependencies which you provided: <br> <br> '${dependencies}' <br> <br> is not an array of callback functions. Please follow the format: <br> <br> '[() => watchedVar]'`, this.canvasId, "watch()");
             const error = new Error("Error: Dependencies must be an array of functions. For example: [() => watchedVar]");
             error.name = "";
             throw error;
