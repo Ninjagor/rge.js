@@ -128,6 +128,15 @@ declare module "rge.js" {
         destroy: () => void;
     }
 
+    export class TextureManager {
+        constructor(entity: any);
+        entity: any;
+        textures: any[];
+        applyTexture: (textureNumber: number) => void;
+        nextTexture: () => void;
+        prevTexture: () => void;
+    }
+
     export class SceneManager{
         constructor();
         scenes: {
