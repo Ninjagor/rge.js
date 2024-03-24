@@ -7,6 +7,7 @@ export function renderEntities() {
     })
     // Execute custom z-sort defined by user
     this.customZSort();
+    
     // render entities based on canvas origin
     if (this.renderingOrigin == "topleft") {
         for (const entity of this.entities) {

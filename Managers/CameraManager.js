@@ -51,4 +51,14 @@ export class CameraManager {
             console.error(e);
         }
     }
+
+    shakeEffect(cameraName, duration, shakeIntensity) {
+        for (let i = 0; i < duration*100; i++) {
+            setTimeout(() => {
+            const offsetX = Math.random() * shakeIntensity - shakeIntensity / 2;
+            const offsetY = Math.random() * shakeIntensity - shakeIntensity / 2;
+            this.updateCamera(cameraName, offsetX, offsetY);
+            }, i*10)
+        }
+    }
 }
