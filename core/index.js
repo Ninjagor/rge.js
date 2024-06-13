@@ -17,6 +17,8 @@ import * as rendering from "./rendering/index.js"
 import * as entities from "../Entities/index.js";
 import * as loading from "./loading/index.js";
 import * as localdata from "./localdata/index.js";
+// import * as eventbus from "./eventbus/index.js"
+import { EventBus } from "./eventbus/index.js";
 
 /**
  * Main class representing the game engine.
@@ -118,6 +120,8 @@ export class RGE {
         this.loggingDevMode = false;
 
         this.localdata = localdata;
+        // this.eventbus = eventbus;
+        this.EventBus = EventBus;
 
         this.isStopped = false;
 
