@@ -1,10 +1,22 @@
 import { Entity } from "./Entity.js";
+import { RGE } from "../core/index.js";
+
 
 export class Group extends Entity {
-    constructor(x, y, entities = []) {
+    constructor(x, y, entities = [], rge) {
         super(x, y);
         this.entities = entities;
         this.offsets = [];
+
+        if (rge && rge instanceof RGE) {
+            rge.watch(() => {
+                this.entities.forEach((entity, index) => {
+                    const offsetX = this.offsets[index].x;
+                    const offsetY = this.offsets[index].y;
+                    entity.update(x + offsetX, y + offsetY);
+                });
+            }, [() => this.x, () => this.y])
+        }
     }
 
     addEntity(entity, offsetX = 0, offsetY = 0) {
