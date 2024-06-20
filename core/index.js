@@ -97,6 +97,7 @@ export class RGE {
         }
         this.customPreload = async() => {}
         this.preloadedImages = {};
+        this.preloadedFonts = {};
         this.customPreloadFunction = null;
         this.setupExecuted = false;
         this.customSetup = () => {}
@@ -110,6 +111,8 @@ export class RGE {
         this.start = rendering.start.bind(this)
         this.configure = rendering.configure.bind(this);
         this.loadImage = loading.loadImage.bind(this);
+        this.loadFont = loading.loadFont.bind(this);
+        this.loadGoogleFont = loading.loadGoogleFont.bind(this);
         this.canvasLoadingView = loading.canvasLoadingView.bind(this);
         this.updateAssetLoadingCount = loading.updateAssetLoadingCount.bind(this);
 

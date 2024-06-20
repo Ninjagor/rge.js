@@ -14,7 +14,7 @@ export class Rect extends Entity {
      * @param {number} height - The height of the rectangle.
      * @param {string} [fillColor="blue"] - The fill color of the rectangle (default is "blue").
      */
-    constructor(x, y, width, height, fillColor = "blue", data = {},  centered = true) {
+    constructor(x, y, width, height, fillColor = "blue", data = {}, centered = true) {
         super(x, y);
 
         /**
@@ -70,11 +70,11 @@ export class Rect extends Entity {
         context.lineWidth = width;
         context.strokeRect(this.x, this.y, this.width, this.height);
     }
-    
+
     enableCentered() {
         this.centered = true;
-        this.x = this.x-this.width/2
-        this.y = this.y-this.height/2
+        this.x = this.x - this.width / 2
+        this.y = this.y - this.height / 2
     }
 
     disableCentered() {
@@ -91,8 +91,10 @@ export class Rect extends Entity {
      */
     update(x, y, fillColor = this.fillColor) {
         if (this.centered) {
-            this.x = x-this.width/2
-            this.y = y-this.height/2
+            this.x = x - this.width / 2
+            this.y = y - this.height / 2
+            // this.x = x;
+            // this.y = y;
         } else {
             this.x = x;
             this.y = y;
