@@ -3,3 +3,5 @@ export { Entity, Rect, Text, Ellipse, Polygon, Sound, Group, Widgets, PolyBased 
 export { Scene, SceneManager, Camera, CameraManager, StateManager, EntityManager, TextureManager } from "./Managers/index.js";
 export * as compiler from "./compiler/index.js";
 export { setX, setY, setFillColor } from "./functions/index.js";
+export * as logger from "./logger.js"
+
