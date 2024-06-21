@@ -45,7 +45,7 @@ export class RGE {
 
         this.webGLMode = webGLMode;
         this.entities = [];
-        this.tickFunction = () => {};
+        this.tickFunction = () => { };
         this.targetFps = targetFps;
         this.targetFrameTime = 1000 / targetFps;
         this.lastTimestamp = 0;
@@ -62,7 +62,7 @@ export class RGE {
         this.collideRectEllipse = collideRectEllipse.bind(this);
         this.collidePointPoly = collidePointPoly.bind(this);
         this.findDistance = twoPointDist.bind(this);
-        this.initMouseTracking  = initMouseTracking.bind(this)
+        this.initMouseTracking = initMouseTracking.bind(this)
         this.canvas.addEventListener("mousemove", this.initMouseTracking.bind(this));
         this.collideLineEllipse = collideLineEllipse.bind(this);
         this.collidePointEllipse = collidePointEllipse.bind(this);
@@ -91,16 +91,16 @@ export class RGE {
         this.backgroundRepeat = null; // Default is no repeat
         this.backgroundSize = null;
         this.preloadExecuted = false;
-        this.preload = async() => {
+        this.preload = async () => {
             await this.customPreload()
             this.preloadExecuted = true;
         }
-        this.customPreload = async() => {}
+        this.customPreload = async () => { }
         this.preloadedImages = {};
         this.preloadedFonts = {};
         this.customPreloadFunction = null;
         this.setupExecuted = false;
-        this.customSetup = () => {}
+        this.customSetup = () => { }
         this.loadedAssetsCount = 0;
         this.textureLoadingTime = 0;
         this.setup = () => {
@@ -159,7 +159,7 @@ export class RGE {
         }
         this.watchedVariables.push({ dependencies, callback, lastValues: dependencies.map(dep => (typeof dep === 'function' ? dep() : dep)) });
     }
-    
+
     checkWatchedVariables() {
         for (const watchItem of this.watchedVariables) {
             const { dependencies, callback } = watchItem;
@@ -183,22 +183,22 @@ export class RGE {
             }
         }
     }
-    
-    
+
+
 
     enableDevMode(loggingDevMode = false) {
         console.warn("Dev mode is enabled. This may cause certain security features to be disabled, and may result in unexpected errors. In order to properly utilize devMode, make sure you call it at the TOP of your file (or right after you define `rge`).")
         if (loggingDevMode) {
             try {
                 this.loggingDevMode = true;
-            } catch(error) {
+            } catch (error) {
                 console.error(error);
             }
         }
         this.textureLoadingTime = 0;
     }
 
-     resizeCanvas() {
+    resizeCanvas() {
         this.canvas.width = this.canvas.parentElement.clientWidth;
         this.canvas.height = this.canvas.parentElement.clientHeight;
     }
@@ -216,7 +216,7 @@ export class RGE {
 
         try {
             entity.debugMode();
-        } catch(error) {
+        } catch (error) {
             console.warn("Entity does not implement a debug border. If this is a Text entity, Group Entity, or a custom entity, ignore.")
         }
 
@@ -252,14 +252,14 @@ export class RGE {
         this.pressedKeys = {};
         this.mouseClickHandlers = [];
         // console.warn(this.tickFunction)
-        this.tickFunction = () => {};
+        this.tickFunction = () => { };
         // console.warn(this.tickFunction)
         // console.warn(this.animationFrameId)
         cancelAnimationFrame(this.animationFrameId);
     }
 
     addEntity(entity) {
-        if (this.entities.length+1 > this.maxEntities) {
+        if (this.entities.length + 1 > this.maxEntities) {
             new Error("Entity Overflow Error", `The current engine is currently holding <br><br> ${this.entities.length} <br><br> entities, which is the set limit. In order to increase the limit, please add <br><br>
             maxEntities: (desiredMax) <br><br> to the constructor of the engine OR, add <br><br>
             (engine).maxEntities = (desiredMax) <br><br> to your code. If you would like to remove this limit, please set maxEntities to Infinity.`, this.canvasId, "addEntity()");
@@ -287,16 +287,16 @@ export class RGE {
                 if (!this.lastTimestamp) {
                     this.lastTimestamp = timestamp;
                 }
-    
+
                 // Embedded Engine Logic
                 if (this.isEmbedded) {
                     const entityData = JSON.stringify(this.entities);
                     this.canvas.setAttribute('data-entities', entityData);
                 }
-    
+
                 const deltaTime = timestamp - this.lastTimestamp;
                 this.lastTimestamp = timestamp;
-    
+
                 this.deltaAccumulator += deltaTime;
                 if (this.isStopped) {
                     return
@@ -311,24 +311,24 @@ export class RGE {
                     for (const i in this.debugWatchedEntities) {
                         let currIndex = this.debugWatchedEntities[i];
                         if (currIndex.isDestroyed == true) {
-                          // console.log('ya')
-                          this.debugWatchedEntities.pop(i)
-                          break;
+                            // console.log('ya')
+                            this.debugWatchedEntities.pop(i)
+                            break;
                         }
                         try {
-                            currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY , (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}; ${currIndex.entity instanceof Group ? `children: ${currIndex.entity.entities.length}` : ""}`,13,  "monospace");
+                            currIndex.text.update(currIndex.entity.x - currIndex.text.getWidth(this.context) / 2, currIndex.entity.y - currIndex.offsetY, (currIndex.entity.id ? currIndex.entity.id : "unnamed_entity") + ` x: ${Math.round(currIndex.entity.x)}, y: ${Math.round(currIndex.entity.y)}; ${currIndex.entity instanceof Group ? `children: ${currIndex.entity.entities.length}` : ""}`, 13, "monospace");
                             currIndex.centerMarker.update(currIndex.entity.x, currIndex.entity.y);
-                        } catch(error) {
+                        } catch (error) {
                             console.error(error);
                         }
                     }
                     this.deltaAccumulator -= this.targetFrameTime;
                 }
-    
+
                 this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
             }
         }
-        
+
     }
 
     clearCanvas() {
@@ -350,27 +350,27 @@ export class RGE {
     resetOrigin() {
         this.renderingOrigin = "topleft"
     }
-    
+
     customZSort() { }
 
     setBackground(options = {}) {
         const { color = null, image = null, repeat = null } = options;
-    
+
         this.backgroundColor = color;
         this.backgroundImage = image;
         this.backgroundRepeat = repeat;
-    
+
         if (color) {
             this.canvas.style.backgroundColor = color;
         } else if (image) {
             let backgroundStyle = `url(${image})`;
-    
+
             if (repeat) {
                 backgroundStyle += ` ${repeat}`;
             }
-    
+
             backgroundStyle += ` / 100% 100%`; // Set backgroundSize statically
-    
+
             this.canvas.style.background = backgroundStyle;
         } else {
             // No background options provided, clear the background
