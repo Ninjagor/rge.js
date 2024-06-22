@@ -24,7 +24,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rohit Karthik",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
   }
 }
