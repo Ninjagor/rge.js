@@ -203,6 +203,14 @@ export class RGE {
         this.canvas.height = this.canvas.parentElement.clientHeight;
     }
 
+    getWidth() {
+        return this.canvas.width * 2;
+    }
+
+    getHeight() {
+        return this.canvas.height * 2;
+    }
+
     debugEntity(entity, offsetY = 10) {
         const debugText = new Text(entity.x, entity.y, entity.id ? entity.id : "unnamed_entity", 13, "green");
         this.addEntity(debugText);
