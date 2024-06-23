@@ -1,6 +1,6 @@
 {
   "name": "create-rge",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The easiest way to get started with a rge.js project",
   "main": "./dist/index.js",
   "homepage": "https://rge-site.vercel.app/",
