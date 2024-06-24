@@ -2299,6 +2299,19 @@ var TextureManager = class {
   }
 };
 
+// Managers/GlobalVariableStore.js
+var GlobalVariableStore = class {
+  constructor(data = {}) {
+    this.variableStore = data;
+  }
+  GetVariable(_var) {
+    return this.variableStore[_var];
+  }
+  SetVariable(_var, _val) {
+    variableStore[_var] = _val;
+  }
+};
+
 // compiler/index.js
 var compiler_exports = {};
 __export(compiler_exports, {
@@ -4444,6 +4457,7 @@ export {
   RGE as Engine,
   Entity,
   EntityManager,
+  GlobalVariableStore,
   Group,
   PolyBased_exports as PolyBased,
   Polygon,
