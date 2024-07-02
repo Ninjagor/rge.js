@@ -19,5 +19,5 @@ export async function start() {
     // }
     setTimeout(() => {
         this.animationFrameId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
-    }, (Object.keys(this.preloadedImages).length)*(this.textureLoadingTime/(Object.keys(this.preloadedImages).length)))
+    }, (Object.keys(this.preloadedImages).length) * (this.textureLoadingTime / (Object.keys(this.preloadedImages).length)))
 }

@@ -12,8 +12,9 @@ export class Text extends Entity {
      * @param {string} text - The text content.
      * @param {number} [fontSize=16] - The font size (default is 16).
      * @param {string} [fillStyle="black"] - The fill style for the text (default is "black").
-     */
-    constructor(x, y, text, fontSize = 16, fillStyle = "black", fontFamily = "Arial") {
+     * @param {number} [rotation=0] - Rotation
+     * */
+    constructor(x, y, text, fontSize = 16, fillStyle = "black", fontFamily = "Arial", rotation = 0) {
         super(x, y);
 
         /**
@@ -40,6 +41,8 @@ export class Text extends Entity {
          */
         this.fillStyle = fillStyle;
 
+        this.rotation = rotation;
+
     }
 
     /**
@@ -50,24 +53,25 @@ export class Text extends Entity {
      * @param {number} [fontSize=this.fontSize] - The new font size.
      * @param {string} [font=this.font] - The new font family.
      */
-    update(x, y, text = this.text, fontSize = this.fontSize, font = this.font) {
+    update(x, y, text = this.text, fontSize = this.fontSize, font = this.font, rotation = this.rotation) {
         this.x = x;
         this.y = y;
         this.text = text;
         this.fontSize = fontSize;
         this.font = font;
+        this.rotation = rotation;
     }
 
     getWidth(context) {
         context.font = `${this.fontSize}px ${this.font}`;
         return context.measureText(this.text).width;
-    } 
+    }
 
     getHeight(context) {
         context.font = `${this.fontSize}px ${this.font}`;
-        
+
         const textMetrics = context.measureText(this.text);
-        
+
         return textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
     }
 
@@ -76,9 +80,13 @@ export class Text extends Entity {
      * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
      */
     render(context) {
+        context.save();
+        context.translate(this.x, this.y);
+        context.rotate(this.rotation * (Math.PI / 180));
         context.font = `${this.fontSize}px ${this.font}`;
         context.fillStyle = this.fillStyle;
-        context.fillText(this.text, this.x, this.y);
+        context.fillText(this.text, 0, 0);
+        context.restore();
     }
 
     /**

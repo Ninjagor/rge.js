@@ -1,14 +1,14 @@
 import { RGE as Engine } from "../core/index.js";
 
 export class Scene {
-    constructor(canvasId, fps = 120) {
+    constructor(canvasId, fps = 120, serverMode = false) {
         this.engine = new Engine(canvasId, fps, {
-            __fcm__: true
+            __fcm__: true,
         });
     }
 
     configure(configuration = {}) {
-        const { preload = () => {}, setup = () => {}, tick = () => {}, centeredOrigin = false, maxEntities = 500, webGLMode = false } = configuration;
+        const { preload = () => { }, setup = () => { }, tick = () => { }, centeredOrigin = false, maxEntities = 500, webGLMode = false } = configuration;
         if (webGLMode) {
             this.engine.webGLMode = true;
             this.engine.context = this.engine.canvas.getContext('webgl');
