@@ -130,6 +130,13 @@ export class RGE {
 
         this.camx = 0;
         this.camy = 0;
+
+        this.canvas.style.imageRendering = 'pixelated';
+    }
+
+    disableSharpen() {
+        this.canvas.style.imageRendering = 'auto';
+
     }
 
     print(output, type = "log") {
