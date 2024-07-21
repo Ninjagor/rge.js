@@ -56,14 +56,16 @@ console.error = function(...args) {
 	originalError.apply(console, args);
 }
 
-window.onerror = function(message, source, lineno, colno, error) {
-	if (!isReset) {
-		CL.logs.push(
-			{
-				type: "window_error",
-				message: { message, source, lineno, colno, error }
-			}
-		);
-		originalError('Uncaught error:', message, 'at', source, 'line', lineno, 'column', colno, 'error object:', error);
-	}
-};
+if (typeof window !== "undefined") {
+    window.onerror = function(message, source, lineno, colno, error) {
+        if (!isReset) {
+            CL.logs.push(
+                {
+                    type: "window_error",
+                    message: { message, source, lineno, colno, error }
+                }
+            );
+            originalError('Uncaught error:', message, 'at', source, 'line', lineno, 'column', colno, 'error object:', error);
+        }
+    };
+}
