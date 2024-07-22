@@ -14,6 +14,10 @@ export function getLogs() {
 	return CL.logs;
 }
 
+export function clearLogs() {
+	CL.logs = [];
+}
+
 let isReset = false;
 
 export function resetLogger() {
@@ -57,15 +61,15 @@ console.error = function(...args) {
 }
 
 if (typeof window !== "undefined") {
-    window.onerror = function(message, source, lineno, colno, error) {
-        if (!isReset) {
-            CL.logs.push(
-                {
-                    type: "window_error",
-                    message: { message, source, lineno, colno, error }
-                }
-            );
-            originalError('Uncaught error:', message, 'at', source, 'line', lineno, 'column', colno, 'error object:', error);
-        }
-    };
+	window.onerror = function(message, source, lineno, colno, error) {
+		if (!isReset) {
+			CL.logs.push(
+				{
+					type: "window_error",
+					message: { message, source, lineno, colno, error }
+				}
+			);
+			originalError('Uncaught error:', message, 'at', source, 'line', lineno, 'column', colno, 'error object:', error);
+		}
+	};
 }
