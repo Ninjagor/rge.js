@@ -1,6 +1,6 @@
 {
   "name": "rge.js",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "RGE.js is a Javascript library for simple and intuitive game development and digital art.",
   "main": "index.js",
   "homepage": "https://rge-site.vercel.app/",

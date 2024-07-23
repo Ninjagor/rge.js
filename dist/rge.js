@@ -2319,7 +2319,7 @@ var GlobalVariableStore = class {
     return this.variableStore[_var];
   }
   SetVariable(_var, _val) {
-    variableStore[_var] = _val;
+    this.variableStore[_var] = _val;
   }
 };
 
@@ -4403,6 +4403,7 @@ function createEngine(canvasId, fps = 60) {
 // logger.js
 var logger_exports = {};
 __export(logger_exports, {
+  clearLogs: () => clearLogs,
   getLogs: () => getLogs,
   resetLogger: () => resetLogger
 });
@@ -4417,6 +4418,9 @@ var ConsoleLogger = class {
 var CL = new ConsoleLogger();
 function getLogs() {
   return CL.logs;
+}
+function clearLogs() {
+  CL.logs = [];
 }
 var isReset = false;
 function resetLogger() {
