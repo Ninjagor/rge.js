@@ -8,6 +8,6 @@ export class GlobalVariableStore {
     }
 
     SetVariable(_var, _val) {
-        variableStore[_var] = _val;
+        this.variableStore[_var] = _val;
     }
 }
