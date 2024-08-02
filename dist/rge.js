@@ -4410,6 +4410,7 @@ __export(logger_exports, {
 var originalLog = console.log;
 var originalError = console.error;
 var originalOnError = console.onerror;
+var originalClear = console.clear;
 var ConsoleLogger = class {
   constructor() {
     this.logs = [];
@@ -4428,6 +4429,10 @@ function resetLogger() {
   console.error = originalError;
   console.onerror = originalOnError;
 }
+console.clear = function(...args) {
+  originalClear();
+  clearLogs();
+};
 var isLogging = false;
 console.log = function(...args) {
   const optOut = args.some((arg) => arg && arg.optOut === true);

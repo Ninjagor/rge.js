@@ -1,6 +1,7 @@
 const originalLog = console.log;
 const originalError = console.error;
 const originalOnError = console.onerror;
+const originalClear = console.clear;
 
 class ConsoleLogger {
 	constructor() {
@@ -26,6 +27,10 @@ export function resetLogger() {
 	console.onerror = originalOnError;
 }
 
+console.clear = function(...args) {
+	originalClear();
+	clearLogs();
+}
 
 
 // console.log has protections built in to prevent recursive calling of it (which would result in an infinite loop of console.log's). console.error does not have this built in as it is not needed.
