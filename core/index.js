@@ -25,6 +25,17 @@ import { EventBus } from "./eventbus/index.js";
  * @class
  */
 export class RGE {
+    /**
+     * Initializes a new instance of the RGE class, representing the game engine.
+     * 
+     * @param {string} canvasId - The ID of the canvas element to render the game on.
+     * @param {number} [targetFps=60] - The target frames per second for the game.
+     * @param {object} [data={}] - Additional data to initialize the game engine with.
+     * @param {boolean} [data.isEmbedded=false] - Whether the game engine is embedded in another application.
+     * @param {boolean} [data.__fcm__=false] - Whether to ignore the raw Engine instantiation warning.
+     * @param {number} [data.maxEntities=500] - The maximum number of entities allowed in the game.
+     * @param {boolean} [data.webGLMode=false] - Whether to use WebGL mode for rendering.
+     */
     constructor(canvasId, targetFps = 60, data = {}) {
         const { isEmbedded = false, __fcm__ = false, maxEntities = 500, webGLMode = false } = data;
         this.isEmbedded = isEmbedded;
@@ -91,6 +102,11 @@ export class RGE {
         this.backgroundRepeat = null; // Default is no repeat
         this.backgroundSize = null;
         this.preloadExecuted = false;
+        /**
+         * Preloads the game by executing the custom preload function and sets the preloadExecuted flag to true.
+         *
+         * @return {Promise<void>} A promise that resolves when the preload is complete.
+         */
         this.preload = async () => {
             await this.customPreload()
             this.preloadExecuted = true;
@@ -103,6 +119,11 @@ export class RGE {
         this.customSetup = () => { }
         this.loadedAssetsCount = 0;
         this.textureLoadingTime = 0;
+        /**
+         * Executes the custom setup function and marks the setup as executed.
+         *
+         * @return {void} No return value.
+         */
         this.setup = () => {
             this.customSetup()
             this.setupExecuted = true;
@@ -134,11 +155,23 @@ export class RGE {
         this.canvas.style.imageRendering = 'pixelated';
     }
 
+    /**
+     * Disables image sharpening on the canvas.
+     *
+     * @return {void} No return value.
+     */
     disableSharpen() {
         this.canvas.style.imageRendering = 'auto';
 
     }
 
+    /**
+     * Prints output to the console based on the specified type.
+     *
+     * @param {string} output - The message to be printed.
+     * @param {string} [type="log"] - The type of message (error, warn, log).
+     * @return {void} No return value.
+     */
     print(output, type = "log") {
         if (type == "error") {
             console.error(output);
@@ -149,14 +182,34 @@ export class RGE {
         }
     }
 
+    /**
+     * Sets the custom preload function.
+     *
+     * @param {function} preloadFunction - The function to be executed during preload.
+     * @return {void} No return value.
+     */
     setPreload(preloadFunction) {
         this.customPreload = preloadFunction;
     }
 
+    /**
+     * Checks if two arrays are equal by comparing their lengths and elements.
+     *
+     * @param {array} a - The first array to compare.
+     * @param {array} b - The second array to compare.
+     * @return {boolean} True if the arrays are equal, false otherwise.
+     */
     arraysEqual(a, b) {
         return a.length === b.length && a.every((value, index) => value === b[index]);
     }
 
+    /**
+     * Watches for changes in the specified dependencies and calls the callback function when they change.
+     *
+     * @param {function} callback - The function to be called when the dependencies change.
+     * @param {Array<function>} dependencies - An array of functions that represent the dependencies to watch. Each function should return the value of the dependency.
+     * @throws {Error} If the dependencies parameter is not an array of functions.
+     */
     watch(callback, dependencies) {
         if (!(Array.isArray(dependencies))) {
             new Error("Dependency Array Error: Invalid Dependencies", `The dependencies which you provided: <br> <br> '${dependencies}' <br> <br> is not an array of callback functions. Please follow the format: <br> <br> '[() => watchedVar]'`, this.canvasId, "watch()");
@@ -167,6 +220,15 @@ export class RGE {
         this.watchedVariables.push({ dependencies, callback, lastValues: dependencies.map(dep => (typeof dep === 'function' ? dep() : dep)) });
     }
 
+    /**
+     * Checks and updates the watched variables.
+     *
+     * Iterates through the watched variables, checks if the dependencies have changed,
+     * and calls the callback function if they have. Also updates the last values of
+     * the watched variables.
+     *
+     * @return {void} No return value.
+     */
     checkWatchedVariables() {
         for (const watchItem of this.watchedVariables) {
             const { dependencies, callback } = watchItem;
@@ -193,6 +255,15 @@ export class RGE {
 
 
 
+    /**
+     * Enables the development mode for the engine.
+     *
+     * This function enables the development mode, which may cause certain security features to be disabled and may result in unexpected errors.
+     * It also allows for logging of development mode information if the loggingDevMode parameter is set to true.
+     *
+     * @param {boolean} loggingDevMode - Whether to enable logging of development mode information. Defaults to false.
+     * @return {void} No return value.
+     */
     enableDevMode(loggingDevMode = false) {
         console.warn("Dev mode is enabled. This may cause certain security features to be disabled, and may result in unexpected errors. In order to properly utilize devMode, make sure you call it at the TOP of your file (or right after you define `rge`).")
         if (loggingDevMode) {
@@ -205,19 +276,44 @@ export class RGE {
         this.textureLoadingTime = 0;
     }
 
+    /**
+     * Resizes the canvas element to match the dimensions of its parent element.
+     *
+     * This function updates the width and height properties of the canvas element
+     * to match the clientWidth and clientHeight properties of its parent element.
+     *
+     * @return {void} This function does not return anything.
+     */
     resizeCanvas() {
         this.canvas.width = this.canvas.parentElement.clientWidth;
         this.canvas.height = this.canvas.parentElement.clientHeight;
     }
 
+    /**
+     * Returns the width of the canvas element, doubled.
+     *
+     * @return {number} The doubled width of the canvas element.
+     */
     getWidth() {
         return this.canvas.width * 2;
     }
 
+    /**
+     * Returns the height of the canvas element, doubled.
+     *
+     * @return {number} The doubled height of the canvas element.
+     */
     getHeight() {
         return this.canvas.height * 2;
     }
 
+    /**
+     * Debugs an entity by adding a debug text and center marker to the canvas.
+     *
+     * @param {Entity} entity - The entity to be debugged.
+     * @param {number} [offsetY=10] - The vertical offset of the debug text.
+     * @return {void}
+     */
     debugEntity(entity, offsetY = 10) {
         const debugText = new Text(entity.x, entity.y, entity.id ? entity.id : "unnamed_entity", 13, "green");
         this.addEntity(debugText);
@@ -246,11 +342,21 @@ export class RGE {
         })
     }
 
+    /**
+     * Disables all entity debugs by clearing the debugWatchedEntities array.
+     *
+     * @return {void}
+     */
     disableAllEntityDebugs() {
         this.debugWatchedEntitiesBackup = this.debugWatchedEntities;
         this.debugWatchedEntities = [];
     }
 
+    /**
+     * Re-enables all entity debugs by restoring the debugWatchedEntities array from its backup.
+     *
+     * @return {void}
+     */
     reEnableAllEntityDebugs() {
         this.debugWatchedEntities = this.debugWatchedEntitiesBackup;
     }
@@ -259,6 +365,15 @@ export class RGE {
         this.resizeCanvas();
     };
 
+    /**
+     * Stops the execution of the function and resets all relevant properties.
+     *
+     * This function sets the `isStopped` property to `true` to indicate that the execution has stopped.
+     * It then clears the `entities`, `keyPressActions`, `pressedKeys`, and `mouseClickHandlers` arrays.
+     * Additionally, it resets the `tickFunction` to an empty arrow function and cancels the animation frame request.
+     *
+     * @return {void}
+     */
     stop() {
         this.isStopped = true;
 
@@ -273,6 +388,13 @@ export class RGE {
         cancelAnimationFrame(this.animationFrameId);
     }
 
+    /**
+     * Adds a new entity to the engine's entities array.
+     *
+     * @param {Entity} entity - The entity to be added.
+     * @throws {Error} If the number of entities exceeds the maximum allowed limit.
+     * @return {void}
+     */
     addEntity(entity) {
         if (this.entities.length + 1 > this.maxEntities) {
             new Error("Entity Overflow Error", `The current engine is currently holding <br><br> ${this.entities.length} <br><br> entities, which is the set limit. In order to increase the limit, please add <br><br>
@@ -285,14 +407,32 @@ export class RGE {
         this.entities.push(entity);
     }
 
+    /**
+     * Sets the tick function for the engine.
+     *
+     * @param {function} tickFunction - The function to be executed on each tick.
+     * @return {void}
+     */
     setTickFunction(tickFunction) {
         this.tickFunction = tickFunction;
     }
 
+    /**
+     * Executes the custom setup function and marks the setup as executed.
+     *
+     * @param {function} setupFunc - The custom setup function to be executed.
+     * @return {void} No return value.
+     */
     setupFunction(setupFunc) {
         this.customSetup = setupFunc;
     }
 
+    /**
+     * The main game loop function, responsible for updating and rendering the game state.
+     *
+     * @param {number} timestamp - The current timestamp, used for calculating the delta time.
+     * @return {void} No return value.
+     */
     gameLoop(timestamp) {
         if (this.isStopped) {
             this.clearCanvas();
@@ -350,6 +490,12 @@ export class RGE {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    /**
+     * Removes the specified entity from the list of entities and calls its destroy method.
+     *
+     * @param {Entity} entity - The entity to be destroyed.
+     * @return {void}
+     */
     destroyEntity(entity) {
         const index = this.entities.indexOf(entity);
         if (index !== -1) {
@@ -368,6 +514,15 @@ export class RGE {
 
     customZSort() { }
 
+    /**
+     * Sets the background of the canvas based on the provided options.
+     *
+     * @param {Object} options - An object containing background options.
+     * @param {string} options.color - The background color.
+     * @param {string} options.image - The background image URL.
+     * @param {string} options.repeat - The background repeat style.
+     * @return {void}
+     */
     setBackground(options = {}) {
         const { color = null, image = null, repeat = null } = options;
 
