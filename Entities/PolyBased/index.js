@@ -1,1 +1,1 @@
-export { PBRect } from "./PBRect.js";
+export { PBRect as Rect, PBRect } from "./PBRect.js";

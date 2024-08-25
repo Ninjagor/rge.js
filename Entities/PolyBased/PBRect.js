@@ -27,6 +27,10 @@ export class PBRect extends Entity {
         this.generatePoly();
     }
 
+    getRef() {
+        return this.polyrectRef;
+    }
+
     generatePoly() {
         const rotatedRectVertices = this.calculateRotatedRectVertices(this.x, this.y, this.width, this.height, this.rotation);
 
