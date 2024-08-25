@@ -7,7 +7,7 @@
 
 import { addKeyPressAction, addMouseClickHandler, handleMouseClick, initMouseTracking } from "./inputs/index.js";
 
-import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse, collideLinePoly, collidePolyPoly } from "./collisions/index.js";
+import { collideRectRect, collideRectEllipse, twoPointDist, collidePointPoly, collideLineEllipse, collidePointEllipse, collidePointLine, collideEllipsePoly, collideLineLine, collideLineRect, collideRectPoly, collideEllipseEllipse, collideLinePoly, collidePolyPoly, collideCircleCircle, collideCirclePoly, collideLineCircle, collidePointCircle, collideRectCircle } from "./collisions/index.js";
 
 import { Text } from "../Entities/index.js";
 import { Group } from "../Entities/index.js";
@@ -85,6 +85,14 @@ export class RGE {
         this.collideEllipseEllipse = collideEllipseEllipse.bind(this);
         this.collideLinePoly = collideLinePoly.bind(this);
         this.collidePolyPoly = collidePolyPoly.bind(this);
+
+        this.collideCircleCircle = collideCircleCircle.bind(this);
+        this.collideCirclePoly = collideCirclePoly.bind(this);
+        this.collideRectCircle = collideRectCircle.bind(this);
+        this.collideLineCircle = collideLineCircle.bind(this);
+        this.collidePointCircle = collidePointCircle.bind(this);
+
+
         this.animationFrameId = null;
         window.addEventListener('resize', this.handleResize);
         // Initial canvas resize

@@ -13,3 +13,9 @@ export { collideEllipseEllipse } from "./CollideEllipseEllipse/index.js";
 
 export { collideLinePoly } from "./CollideLinePoly/index.js"
 export { collidePolyPoly } from "./CollidePolyPoly/index.js";
+
+export { collideCircleCircle } from "./CollideCircleCircle/index.js"
+export { collideCirclePoly } from "./CollideCirclePoly/index.js"
+export { collideLineCircle } from "./CollideLineCircle/index.js"
+export { collidePointCircle } from "./CollidePointCircle/index.js"
+export { collideRectCircle } from "./CollideRectCircle/index.js" 

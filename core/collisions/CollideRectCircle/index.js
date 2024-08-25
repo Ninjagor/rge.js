@@ -4,7 +4,7 @@
      * @param {Circle} ellipse
      * @returns {boolean} - True if a collision occurs, false otherwise.
 */
-export function collideRectEllipse(rect, ellipse) {
+export function collideRectCircle(rect, ellipse) {
     const cx = ellipse.x;
     const cy = ellipse.y;
     const rx = rect.x;
